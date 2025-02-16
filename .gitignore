@@ -2,8 +2,3 @@
 myenv/
 # Python 缓存文件
 __pycache__/
-*.pyc
-.env
-.env.*
-*.env
-.vscode/

@@ -1,18 +1,14 @@
 # main.py
-import logging
-from src import config
-from src.data_loader import load_json
-from src.topo_builder import build_graph
-from src.k_shortest_paths import find_k_shortest_paths
-# from src.visualizer import draw_topology
-from src.stream_dict import Stream
 
-def extract_network_data(data):
-        
-    nodes = {node['name']: node for node in data['nodes']}
-    links = data['links/ports']
-    streams = data['streams']
-    return nodes, links, streams
+import logging
+from src.data_loader import load_json, extract_network_data, save_k_shortest_paths
+from src.graph_builder import build_graph
+from src.path_finder import find_k_shortest_paths
+from src.visualizer import draw_topology
+from src.stream import Stream
+import config
+
+# from src.utils import extract_network_data
 
 def main():
     # 配置日志
