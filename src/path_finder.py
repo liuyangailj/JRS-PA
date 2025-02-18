@@ -25,10 +25,17 @@ def find_k_shortest_paths(G: nx.DiGraph, streams: list, k: int = 4) -> dict:
         for listener in listeners:
             try:
                 paths = list(nx.shortest_simple_paths(G, source=talker, target=listener, weight='weight'))
-                k_shortest_paths[stream_name][listener] = [
-                    {'path': path, 'total_transmission_rate': calculate_path_transmission_rate(G, path)}
-                    for path in paths[:k]
-                ]
+                # 调整输出格式为编号形式，
+                numbered_paths = {}
+                for i,path in enumerate(paths[:k]):
+                    path_key = f"path_{i+1}"
+                    tansmission_rate = calculate_path_transmission_rate(G, path)
+                    numbered_paths[path_key] = {
+                        'path': path,
+                        'total_transmission_rate': tansmission_rate
+                    }
+                k_shortest_paths[stream_name][listener] = numbered_paths
+                   
             except nx.NetworkXNoPath:
                 k_shortest_paths[stream_name][listener] = []
                 no_path_info.append((stream_name, listener))
