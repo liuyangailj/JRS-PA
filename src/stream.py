@@ -15,36 +15,36 @@ class Stream:
         listeners: List[str], 
         path: List[str], 
         priority: int, 
-        earliest_offset: float, 
-        latest_offset: float
+        earliest_offset: int, 
+        latest_offset: int
     ):
         self.name = name
         self.stream_type = stream_type
         self.period = period
-        self.framesPerPeriod = frames_per_period
-        self.maxFrameSize = max_frame_size
-        self.maxLatency = max_latency
+        self.frames_per_period = frames_per_period
+        self.max_frame_size = max_frame_size
+        self.max_latency = max_latency
         self.deadline = deadline
         self.talker = talker
         self.listeners = listeners
         self.path = path
         self.priority = priority
-        self.earliestOffset = earliest_offset
-        self.latestOffset = latest_offset
+        self.earliest_offset = earliest_offset
+        self.latest_offset = latest_offset
 
     def to_dict(self) -> dict:
         return {
             'name': self.name,
             'stream_type': self.stream_type,
             'period': self.period,
-            'framesPerPeriod': self.framesPerPeriod,
-            'maxFrameSize': self.maxFrameSize,
-            'maxLatency': self.maxLatency,
+            'frames_per_period': self.frames_per_period,
+            'max_frame_size': self.max_frame_size,
+            'max_latency': self.max_latency,
             'deadline': self.deadline,
             'talker': self.talker,
             'listeners': self.listeners,
             'path': self.path,
             'priority': self.priority,
-            'earliestOffset': self.earliestOffset,
-            'latestOffset': self.latestOffset
+            'earliestOffset': self.earliest_offset,
+            'latestOffset': self.latest_offset
         }

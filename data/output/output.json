@@ -1,7 +1,7 @@
 {
     "Stream1": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -13,7 +13,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -26,7 +26,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -39,7 +39,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_4": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -53,11 +53,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream2": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -69,7 +69,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -82,7 +82,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -95,7 +95,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_4": {
                 "path": [
                     "ES2",
                     "Bridge1",
@@ -109,11 +109,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream3": {
-        "ES7": [
-            {
+        "ES7": {
+            "path_1": {
                 "path": [
                     "ES3",
                     "Bridge1",
@@ -123,7 +123,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES3",
                     "Bridge1",
@@ -134,7 +134,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES3",
                     "Bridge1",
@@ -149,11 +149,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream4": {
-        "ES7": [
-            {
+        "ES7": {
+            "path_1": {
                 "path": [
                     "ES3",
                     "Bridge1",
@@ -163,7 +163,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES3",
                     "Bridge1",
@@ -174,7 +174,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES3",
                     "Bridge1",
@@ -189,11 +189,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream5": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -203,7 +203,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -215,7 +215,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -230,11 +230,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream6": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -244,7 +244,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -256,7 +256,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -271,11 +271,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream7": {
-        "ES13": [
-            {
+        "ES13": {
+            "path_1": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -285,7 +285,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -297,7 +297,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -312,11 +312,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream8": {
-        "ES13": [
-            {
+        "ES13": {
+            "path_1": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -326,7 +326,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -338,7 +338,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -353,11 +353,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream9": {
-        "ES13": [
-            {
+        "ES13": {
+            "path_1": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -367,7 +367,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -379,7 +379,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -394,11 +394,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream10": {
-        "ES13": [
-            {
+        "ES13": {
+            "path_1": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -408,7 +408,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -420,7 +420,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES9",
                     "Bridge3",
@@ -435,11 +435,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream11": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -449,7 +449,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -461,7 +461,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -476,11 +476,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream12": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -490,7 +490,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -502,7 +502,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -517,11 +517,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream13": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -531,7 +531,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -543,7 +543,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -558,11 +558,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream14": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -572,7 +572,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -584,7 +584,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -599,11 +599,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream15": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -613,7 +613,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -625,7 +625,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -640,11 +640,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream16": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -654,7 +654,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -666,7 +666,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -681,11 +681,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream17": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -695,7 +695,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -707,7 +707,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -722,11 +722,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream18": {
-        "ES14": [
-            {
+        "ES14": {
+            "path_1": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -736,7 +736,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -748,7 +748,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES8",
                     "Bridge3",
@@ -763,11 +763,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream19": {
-        "ES27": [
-            {
+        "ES27": {
+            "path_1": {
                 "path": [
                     "ES1",
                     "Bridge1",
@@ -776,7 +776,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES1",
                     "Bridge1",
@@ -788,7 +788,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES1",
                     "Bridge1",
@@ -804,11 +804,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream20": {
-        "ES20": [
-            {
+        "ES20": {
+            "path_1": {
                 "path": [
                     "ES26",
                     "Bridge9",
@@ -818,7 +818,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES26",
                     "Bridge9",
@@ -831,7 +831,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES26",
                     "Bridge9",
@@ -845,7 +845,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_4": {
                 "path": [
                     "ES26",
                     "Bridge9",
@@ -860,11 +860,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream21": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES24",
                     "Bridge8",
@@ -873,7 +873,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES24",
                     "Bridge8",
@@ -886,7 +886,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES24",
                     "Bridge8",
@@ -902,11 +902,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream22": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES24",
                     "Bridge8",
@@ -915,7 +915,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES24",
                     "Bridge8",
@@ -928,7 +928,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES24",
                     "Bridge8",
@@ -944,11 +944,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream23": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -957,7 +957,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -970,7 +970,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -986,11 +986,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream24": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -999,7 +999,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1012,7 +1012,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1028,11 +1028,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream25": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1041,7 +1041,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1054,7 +1054,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1070,11 +1070,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream26": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1083,7 +1083,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1096,7 +1096,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1112,11 +1112,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream27": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1125,7 +1125,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1138,7 +1138,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES23",
                     "Bridge8",
@@ -1154,11 +1154,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream28": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1167,7 +1167,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1180,7 +1180,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1196,11 +1196,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream29": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1209,7 +1209,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1222,7 +1222,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1238,11 +1238,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream30": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1251,7 +1251,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1264,7 +1264,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1280,11 +1280,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream31": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1293,7 +1293,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1306,7 +1306,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1322,11 +1322,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream32": {
-        "ES21": [
-            {
+        "ES21": {
+            "path_1": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1335,7 +1335,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1348,7 +1348,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES22",
                     "Bridge8",
@@ -1364,11 +1364,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream33": {
-        "ES15": [
-            {
+        "ES15": {
+            "path_1": {
                 "path": [
                     "ES19",
                     "Bridge7",
@@ -1378,7 +1378,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES19",
                     "Bridge7",
@@ -1390,7 +1390,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES19",
                     "Bridge7",
@@ -1405,11 +1405,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream34": {
-        "ES23": [
-            {
+        "ES23": {
+            "path_1": {
                 "path": [
                     "ES7",
                     "Bridge3",
@@ -1418,7 +1418,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES7",
                     "Bridge3",
@@ -1430,7 +1430,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES7",
                     "Bridge3",
@@ -1443,11 +1443,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream35": {
-        "ES11": [
-            {
+        "ES11": {
+            "path_1": {
                 "path": [
                     "ES4",
                     "Bridge2",
@@ -1457,7 +1457,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES4",
                     "Bridge2",
@@ -1470,7 +1470,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES4",
                     "Bridge2",
@@ -1484,7 +1484,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_4": {
                 "path": [
                     "ES4",
                     "Bridge2",
@@ -1499,11 +1499,11 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     },
     "Stream36": {
-        "ES12": [
-            {
+        "ES12": {
+            "path_1": {
                 "path": [
                     "ES5",
                     "Bridge2",
@@ -1513,7 +1513,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_2": {
                 "path": [
                     "ES5",
                     "Bridge2",
@@ -1526,7 +1526,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_3": {
                 "path": [
                     "ES5",
                     "Bridge2",
@@ -1540,7 +1540,7 @@
                 ],
                 "total_transmission_rate": 0
             },
-            {
+            "path_4": {
                 "path": [
                     "ES5",
                     "Bridge2",
@@ -1555,6 +1555,6 @@
                 ],
                 "total_transmission_rate": 0
             }
-        ]
+        }
     }
 }

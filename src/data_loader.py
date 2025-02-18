@@ -27,3 +27,22 @@ def save_k_shortest_paths(k_shortest_paths, output_file = "k_shortest_paths.json
     with open(output_file, 'w', encoding='utf-8') as file:
         json.dump(k_shortest_paths, file, indent=4)
     print(f"K shortest paths saved to: {output_file}")
+    
+# def convert_nodes_to_links(G, path):
+    
+#     link_path = []
+#     for i in range(len(path) - 1):
+#         src = path[i]
+#         dst = path[i + 1]
+#         edge_data = G.get_edge_data(src, dst)
+        
+#         if edge_data:
+#             link_name = edge_data.get('name')
+#             if link_name:
+#                 link_path.append(link_name)
+#             else:
+#                 link_path.append(f"{src} -> {dst}")
+#         else:
+#             # 如果找不到对应的边，记录为未定义的链路
+#             link_path.append(f"Ubdefinded link: {src} -> {dst}")
+#     return link_path
