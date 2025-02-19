@@ -1,7 +1,7 @@
 {
     "name": "Orion_CEV",
     "topology": "RRG",
-    "bridgeNum": 19,
+    "bridgeNum": 9,
     "streamNum": 36,
     "periods": [
         1000000,
