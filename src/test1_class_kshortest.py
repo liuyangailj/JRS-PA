@@ -171,25 +171,210 @@ def select_optimal_routes(data):
 
     return data
 
-def draw_topology(graph):
-    """使用Matplotlib和NetworkX绘制网络拓扑"""
-    # 绘制网络拓扑图
-    plt.figure(figsize=(10, 8))
-    pos = nx.spring_layout(graph)  # 使用 spring 布局，也可以选择其他布局
-    # 绘制节点
-    nx.draw_networkx_nodes(graph, pos, node_size=700, node_color='lightblue')
-    # 绘制边
-    nx.draw_networkx_edges(graph, pos, width=2)
-    # 绘制节点标签
-    nx.draw_networkx_labels(graph, pos, font_size=10, font_family="sans-serif")
-    # 若想在边上绘制权重值
-    edge_labels = nx.get_edge_attributes(graph, "weight")
-    nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
-    
-    plt.title("Network Topology")
-    plt.axis('off')  # 不显示坐标轴
-    plt.show()
 
+
+def draw_topology(
+    graph: nx.Graph,
+    title: str = "Network Topology",
+    node_size: int = 700,
+    node_color: str = "lightblue",
+    edge_color: str = "gray",
+    font_size: int = 10,
+    layout: str = "spring"
+) -> None:
+    """
+    绘制网络拓扑图。
+
+    参数:
+        graph (nx.Graph): NetworkX 图对象。
+        title (str): 图的标题，默认为 "Network Topology"。
+        node_size (int): 节点的大小，默认为 700。
+        node_color (str): 节点的颜色，默认为 "lightblue"。
+        edge_color (str): 边的颜色，默认为 "gray"。
+        font_size (int): 节点标签的字体大小，默认为 10。
+        layout (str): 布局方式 ("spring", "spectral", "circular")，默认为 "spring"。
+    """
+    try:
+        # 布局选择
+        if layout == "spring":
+            pos = nx.spring_layout(graph)
+        elif layout == "spectral":
+            pos = nx.spectral_layout(graph)
+        elif layout == "circular":
+            pos = nx.circular_layout(graph)
+        else:
+            raise ValueError(f"未知布局类型: {layout}")
+    except Exception as e:
+        print(f"布局错误: {e}，使用默认 spring 布局。")
+        pos = nx.spring_layout(graph)  # 回退到 spring 布局
+
+    try:
+        plt.figure(figsize=(10, 8))
+        # 绘制节点与边
+        nx.draw_networkx_nodes(graph, pos, node_size=node_size, node_color=node_color)
+        nx.draw_networkx_edges(graph, pos, edge_color=edge_color, width=2)
+        # 绘制节点标签与边标签
+        nx.draw_networkx_labels(graph, pos, font_size=font_size, font_family="sans-serif")
+        edge_labels = nx.get_edge_attributes(graph, "transmission_rate")
+        if edge_labels:
+            nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
+        plt.title(title)
+        plt.axis('off')  # 隐藏坐标轴
+        plt.show()
+    except Exception as e:
+        print(f"绘图错误: {e}")
+
+# ------------------调度算法代码-------------------------------
+import numpy as np
+import math
+
+def calculate_tdi_and_ts(data):
+    """
+    Step 1: 计算时间分段间隔 (TDI) 和时间槽长度 (TS)
+    需获取参数：pdbase, dtrans, dprop, dproc, nl_speed, l_mtu
+    """
+    
+       # 获取节点中 isBridge 为 True 的处理延时
+
+    processing_delay = None
+    for node in data.get('nodes', []):
+        if node.get('isBridge', False):
+            processing_delay = node.get('processingDelay', 0)
+            break
+    if processing_delay is None:
+        print("未找到 isBridge=True 的节点或 processingDelay 数据不可用")
+        return data
+    
+    # 获取链路传输速率与传播延迟
+    transmission_rate = None
+    propagation_delay = None
+    for link in data.get('links/ports', []):
+        if 'transmissionRate' in link and 'propagationDelay' in link:
+            transmission_rate = link['transmissionRate']
+            propagation_delay = link['propagationDelay']
+            break
+    if transmission_rate is None or propagation_delay is None:
+        print("未找到 transmissionRate 或 propagationDelay 数据")
+        return data
+    
+    # 获取流的最大帧大小和每周期帧数
+    first_stream = data.get('streams', [{}])[0] # 仅获取第一个流的信息
+    
+    framesize = first_stream.get('maxFrameSize', 0)
+    framesperperiod = first_stream.get('framesPerPeriod', 0)
+    
+    # 计算传输延时 = framesize * framesperperiod / transmission_rate
+    if transmission_rate == 0:
+        print("transmission_rate 为 0，无法计算延时")
+        continue
+    transmission_delay = framesize * framesperperiod / transmission_rate
+
+    # 获取流的最小周期
+    # 提取所有的 period 并找到最小值
+    streams = data.get('streams', [])
+    periods = [stream.get('period', 0) for stream in streams]       
+    pdbase = min(periods) # 根据公式 (5)      
+    TDI = pdbase  # 根据公式 (8)
+    
+    GBI = 1542/ transmission_rate  # 根据公式 (9)
+    
+    TS = transmission_delay + propagation_delay + processing_delay  # 根据公式 (10)
+    return TDI, TS, GBI
+
+
+def calculate_tsai_and_ntstc(flow_periods, hops, nl_speeds, pdbase):
+    """
+    Step 2: 计算时间槽分配间隔 (TSAI) 和每次时间槽分配间隔需分配的时间槽数量 (NTSTC)
+    """
+    TSAIs = flow_periods  # 每个流的TSAI等于其周期，根据公式 (10)
+    TSAI_max = max(TSAIs)  # 最大分配时间槽间隔，根据公式 (11)
+    
+    NTSTCs = []
+    for flow_period, hop_count in zip(flow_periods, hops):
+        beta = flow_period / pdbase
+        additional_slots = hop_count / beta  # 每个流额外时间槽分配，根据公式 (12)
+        NTSTC = math.ceil(sum(1 / (period / pdbase) for period in flow_periods) + additional_slots)
+        NTSTCs.append(NTSTC)
+    return TSAIs, TSAI_max, NTSTCs
+
+
+def schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs):
+    """
+    Step 3: 为每个流调度分配时间槽
+    """
+    schedule = {}
+    allocation_sequence = sorted(range(len(flow_periods)), key=lambda i: (hops[i], flow_periods[i]))  # 按跳数和周期排序
+
+    for n, flow_id in enumerate(allocation_sequence):
+        flow_schedule = []
+        current_tdi = 0
+        tdi_slots = []
+        
+        while current_tdi < TDI:
+            timeslot_start = current_tdi
+            for hop in range(hops[flow_id]):
+                ts_entry = {
+                    "flow": flow_id,
+                    "hop": hop,
+                    "start_time": timeslot_start,
+                    "end_time": timeslot_start + TSAIs[flow_id]
+                }
+                flow_schedule.append(ts_entry)
+                timeslot_start += TSAIs[flow_id]
+            current_tdi += TSAIs[flow_id]
+        
+        schedule[flow_id] = flow_schedule
+
+    return schedule
+
+
+def derive_gcl(schedule, TDI, NTSTCs):
+    """
+    Step 4: 提取为TSN交换机生成GCL
+    """
+    gcls = {}
+    for flow_id, flow_schedule in schedule.items():
+        gcl = {
+            "flow": flow_id,
+            "time_slots": [],
+        }
+        for entry in flow_schedule:
+            gcl["time_slots"].append({
+                "hop": entry["hop"],
+                "start": entry["start_time"],
+                "end": entry["end_time"]
+            })
+        gcls[flow_id] = gcl
+    return gcls
+
+
+# 示例输入参数
+flow_periods = [10, 20, 40]  # 每个流的周期 (单位：ms)
+optimal_routes = [[1, 2, 3], [2, 3], [1, 2, 4, 5]]  # 每个流的最佳路径
+hops = [len(route) for route in optimal_routes]  # 每个流的跳数
+pdbase = min(flow_periods)  # 根据公式 (5)
+nl_speed = 1e9  # 网络链路速度 (1Gbps)
+l_mtu = 1500 * 8  # 网络MTU大小 (以比特计)
+
+# 延迟参数 (单位：ms)
+dtrans = 0.1  # 传输延迟
+dprop = 0.2  # 传播延迟
+dproc = 0.05  # 处理延迟
+
+# 调用各步骤函数
+TDI, TS, GBI = calculate_tdi_and_ts(pdbase, dtrans, dprop, dproc, nl_speed, l_mtu)
+TSAIs, TSAI_max, NTSTCs = calculate_tsai_and_ntstc(flow_periods, hops, nl_speed, pdbase)
+schedule = schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs)
+gcls = derive_gcl(schedule, TDI, NTSTCs)
+
+# 输出结果
+print("TDI:", TDI, "TS:", TS, "GBI:", GBI)
+print("TSAI:", TSAIs, "TSAI_max:", TSAI_max, "NTSTC:", NTSTCs)
+print("Schedule:", schedule)
+print("GCLs:", gcls)
+
+
+# -------------------------------------------------
 def main():
     json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
     output_file = "../data/output/output.json"  # 输出文件路径
@@ -219,7 +404,7 @@ def main():
     nt.save_data(output_file)
 
     # 绘制网络拓扑 
-    draw_topology(graph)
+    draw_topology(graph, layout="spectral")
 
 if __name__ == '__main__':
     main()
