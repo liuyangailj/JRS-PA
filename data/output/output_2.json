@@ -13,25 +13,35 @@
     "listenersPerStream": 1,
     "streams": [
         {
-            "name": "Stream1",
+            "name": "Stream13",
             "type": "TT",
-            "period": 2000000,
+            "period": 1000000,
             "framesPerPeriod": 1,
             "maxFrameSize": 1542,
-            "maxLatency": 2000000,
-            "deadline": 2000000,
-            "talker": "ES2",
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES8",
             "listeners": [
                 "ES14"
             ],
             "path": [
                 {
                     "route": [
-                        "ES2",
-                        "Bridge1",
-                        "Bridge2",
+                        "ES8",
                         "Bridge3",
                         "Bridge4",
+                        "Bridge5",
+                        "ES14"
+                    ],
+                    "phy_delay": 66180.0
+                },
+                {
+                    "route": [
+                        "ES8",
+                        "Bridge3",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
                         "Bridge5",
                         "ES14"
                     ],
@@ -39,48 +49,78 @@
                 },
                 {
                     "route": [
-                        "ES2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
+                        "ES8",
                         "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "ES14"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES14"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES2",
-                        "Bridge1",
                         "Bridge2",
-                        "Bridge3",
+                        "Bridge1",
+                        "Bridge9",
                         "Bridge8",
                         "Bridge7",
                         "Bridge6",
                         "Bridge5",
                         "ES14"
                     ],
-                    "phy_delay": 119924.0
+                    "phy_delay": 133360.0
                 }
             ],
             "priority": 5,
             "earliestOffset": 0,
-            "latestOffset": 2000000
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream19",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES1",
+            "listeners": [
+                "ES27"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES1",
+                        "Bridge1",
+                        "Bridge9",
+                        "ES27"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES1",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge8",
+                        "Bridge9",
+                        "ES27"
+                    ],
+                    "phy_delay": 93052.0
+                },
+                {
+                    "route": [
+                        "ES1",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "Bridge8",
+                        "Bridge9",
+                        "ES27"
+                    ],
+                    "phy_delay": 146796.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
         },
         {
             "name": "Stream2",
@@ -153,6 +193,300 @@
             "latestOffset": 1000000
         },
         {
+            "name": "Stream20",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES26",
+            "listeners": [
+                "ES20"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES26",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES20"
+                    ],
+                    "phy_delay": 66180.0
+                },
+                {
+                    "route": [
+                        "ES26",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES20"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES26",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES20"
+                    ],
+                    "phy_delay": 119924.0
+                },
+                {
+                    "route": [
+                        "ES26",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES20"
+                    ],
+                    "phy_delay": 133360.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream22",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES24",
+            "listeners": [
+                "ES21"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES24",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES24",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES24",
+                        "Bridge8",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 146796.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream24",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES23",
+            "listeners": [
+                "ES21"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES23",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES23",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES23",
+                        "Bridge8",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 146796.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream28",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES22",
+            "listeners": [
+                "ES21"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 146796.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream29",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES22",
+            "listeners": [
+                "ES21"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 146796.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
             "name": "Stream3",
             "type": "TT",
             "period": 1000000,
@@ -198,6 +532,184 @@
                         "Bridge4",
                         "Bridge3",
                         "ES7"
+                    ],
+                    "phy_delay": 133360.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream30",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES22",
+            "listeners": [
+                "ES21"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES22",
+                        "Bridge8",
+                        "Bridge9",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "ES21"
+                    ],
+                    "phy_delay": 146796.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream34",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES7",
+            "listeners": [
+                "ES23"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES7",
+                        "Bridge3",
+                        "Bridge8",
+                        "ES23"
+                    ],
+                    "phy_delay": 52744.0
+                },
+                {
+                    "route": [
+                        "ES7",
+                        "Bridge3",
+                        "Bridge2",
+                        "Bridge1",
+                        "Bridge9",
+                        "Bridge8",
+                        "ES23"
+                    ],
+                    "phy_delay": 93052.0
+                },
+                {
+                    "route": [
+                        "ES7",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "Bridge6",
+                        "Bridge7",
+                        "Bridge8",
+                        "ES23"
+                    ],
+                    "phy_delay": 106488.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 1000000
+        },
+        {
+            "name": "Stream36",
+            "type": "TT",
+            "period": 1000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 1000000,
+            "deadline": 1000000,
+            "talker": "ES5",
+            "listeners": [
+                "ES12"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES5",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "ES12"
+                    ],
+                    "phy_delay": 66180.0
+                },
+                {
+                    "route": [
+                        "ES5",
+                        "Bridge2",
+                        "Bridge1",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "ES12"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES5",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
+                        "Bridge5",
+                        "Bridge4",
+                        "ES12"
+                    ],
+                    "phy_delay": 119924.0
+                },
+                {
+                    "route": [
+                        "ES5",
+                        "Bridge2",
+                        "Bridge1",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
+                        "Bridge5",
+                        "Bridge4",
+                        "ES12"
                     ],
                     "phy_delay": 133360.0
                 }
@@ -371,116 +883,6 @@
             "latestOffset": 1000000
         },
         {
-            "name": "Stream7",
-            "type": "TT",
-            "period": 2000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 2000000,
-            "deadline": 2000000,
-            "talker": "ES9",
-            "listeners": [
-                "ES13"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES9",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "ES13"
-                    ],
-                    "phy_delay": 66180.0
-                },
-                {
-                    "route": [
-                        "ES9",
-                        "Bridge3",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES13"
-                    ],
-                    "phy_delay": 93052.0
-                },
-                {
-                    "route": [
-                        "ES9",
-                        "Bridge3",
-                        "Bridge2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES13"
-                    ],
-                    "phy_delay": 133360.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 2000000
-        },
-        {
-            "name": "Stream8",
-            "type": "TT",
-            "period": 2000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 2000000,
-            "deadline": 2000000,
-            "talker": "ES9",
-            "listeners": [
-                "ES13"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES9",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "ES13"
-                    ],
-                    "phy_delay": 66180.0
-                },
-                {
-                    "route": [
-                        "ES9",
-                        "Bridge3",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES13"
-                    ],
-                    "phy_delay": 93052.0
-                },
-                {
-                    "route": [
-                        "ES9",
-                        "Bridge3",
-                        "Bridge2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES13"
-                    ],
-                    "phy_delay": 133360.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 2000000
-        },
-        {
             "name": "Stream9",
             "type": "TT",
             "period": 1000000,
@@ -534,6 +936,76 @@
             "priority": 5,
             "earliestOffset": 0,
             "latestOffset": 1000000
+        },
+        {
+            "name": "Stream1",
+            "type": "TT",
+            "period": 2000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 2000000,
+            "deadline": 2000000,
+            "talker": "ES2",
+            "listeners": [
+                "ES14"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES2",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "ES14"
+                    ],
+                    "phy_delay": 93052.0
+                },
+                {
+                    "route": [
+                        "ES2",
+                        "Bridge1",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "ES14"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES2",
+                        "Bridge1",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
+                        "Bridge5",
+                        "ES14"
+                    ],
+                    "phy_delay": 106488.0
+                },
+                {
+                    "route": [
+                        "ES2",
+                        "Bridge1",
+                        "Bridge2",
+                        "Bridge3",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
+                        "Bridge5",
+                        "ES14"
+                    ],
+                    "phy_delay": 119924.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 2000000
         },
         {
             "name": "Stream10",
@@ -699,61 +1171,6 @@
             "priority": 5,
             "earliestOffset": 0,
             "latestOffset": 2000000
-        },
-        {
-            "name": "Stream13",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES8",
-            "listeners": [
-                "ES14"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "ES14"
-                    ],
-                    "phy_delay": 66180.0
-                },
-                {
-                    "route": [
-                        "ES8",
-                        "Bridge3",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES14"
-                    ],
-                    "phy_delay": 93052.0
-                },
-                {
-                    "route": [
-                        "ES8",
-                        "Bridge3",
-                        "Bridge2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge7",
-                        "Bridge6",
-                        "Bridge5",
-                        "ES14"
-                    ],
-                    "phy_delay": 133360.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
         },
         {
             "name": "Stream14",
@@ -1031,131 +1448,6 @@
             "latestOffset": 2000000
         },
         {
-            "name": "Stream19",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES1",
-            "listeners": [
-                "ES27"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES1",
-                        "Bridge1",
-                        "Bridge9",
-                        "ES27"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES1",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge8",
-                        "Bridge9",
-                        "ES27"
-                    ],
-                    "phy_delay": 93052.0
-                },
-                {
-                    "route": [
-                        "ES1",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "Bridge8",
-                        "Bridge9",
-                        "ES27"
-                    ],
-                    "phy_delay": 146796.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
-            "name": "Stream20",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES26",
-            "listeners": [
-                "ES20"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES26",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES20"
-                    ],
-                    "phy_delay": 66180.0
-                },
-                {
-                    "route": [
-                        "ES26",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES20"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES26",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES20"
-                    ],
-                    "phy_delay": 119924.0
-                },
-                {
-                    "route": [
-                        "ES26",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES20"
-                    ],
-                    "phy_delay": 133360.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
             "name": "Stream21",
             "type": "TT",
             "period": 2000000,
@@ -1212,62 +1504,6 @@
             "latestOffset": 2000000
         },
         {
-            "name": "Stream22",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES24",
-            "listeners": [
-                "ES21"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES24",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES24",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES24",
-                        "Bridge8",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 146796.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
             "name": "Stream23",
             "type": "TT",
             "period": 2000000,
@@ -1322,62 +1558,6 @@
             "priority": 5,
             "earliestOffset": 0,
             "latestOffset": 2000000
-        },
-        {
-            "name": "Stream24",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES23",
-            "listeners": [
-                "ES21"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES23",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES23",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES23",
-                        "Bridge8",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 146796.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
         },
         {
             "name": "Stream25",
@@ -1548,174 +1728,6 @@
             "latestOffset": 2000000
         },
         {
-            "name": "Stream28",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES22",
-            "listeners": [
-                "ES21"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 146796.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
-            "name": "Stream29",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES22",
-            "listeners": [
-                "ES21"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 146796.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
-            "name": "Stream30",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES22",
-            "listeners": [
-                "ES21"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES22",
-                        "Bridge8",
-                        "Bridge9",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "ES21"
-                    ],
-                    "phy_delay": 146796.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
             "name": "Stream31",
             "type": "TT",
             "period": 2000000,
@@ -1883,58 +1895,6 @@
             "latestOffset": 2000000
         },
         {
-            "name": "Stream34",
-            "type": "TT",
-            "period": 1000000,
-            "framesPerPeriod": 1,
-            "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES7",
-            "listeners": [
-                "ES23"
-            ],
-            "path": [
-                {
-                    "route": [
-                        "ES7",
-                        "Bridge3",
-                        "Bridge8",
-                        "ES23"
-                    ],
-                    "phy_delay": 52744.0
-                },
-                {
-                    "route": [
-                        "ES7",
-                        "Bridge3",
-                        "Bridge2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
-                        "ES23"
-                    ],
-                    "phy_delay": 93052.0
-                },
-                {
-                    "route": [
-                        "ES7",
-                        "Bridge3",
-                        "Bridge4",
-                        "Bridge5",
-                        "Bridge6",
-                        "Bridge7",
-                        "Bridge8",
-                        "ES23"
-                    ],
-                    "phy_delay": 106488.0
-                }
-            ],
-            "priority": 5,
-            "earliestOffset": 0,
-            "latestOffset": 1000000
-        },
-        {
             "name": "Stream35",
             "type": "TT",
             "period": 2000000,
@@ -2005,58 +1965,44 @@
             "latestOffset": 2000000
         },
         {
-            "name": "Stream36",
+            "name": "Stream7",
             "type": "TT",
-            "period": 1000000,
+            "period": 2000000,
             "framesPerPeriod": 1,
             "maxFrameSize": 1542,
-            "maxLatency": 1000000,
-            "deadline": 1000000,
-            "talker": "ES5",
+            "maxLatency": 2000000,
+            "deadline": 2000000,
+            "talker": "ES9",
             "listeners": [
-                "ES12"
+                "ES13"
             ],
             "path": [
                 {
                     "route": [
-                        "ES5",
-                        "Bridge2",
+                        "ES9",
                         "Bridge3",
                         "Bridge4",
-                        "ES12"
+                        "Bridge5",
+                        "ES13"
                     ],
                     "phy_delay": 66180.0
                 },
                 {
                     "route": [
-                        "ES5",
-                        "Bridge2",
-                        "Bridge1",
-                        "Bridge9",
-                        "Bridge8",
-                        "Bridge3",
-                        "Bridge4",
-                        "ES12"
-                    ],
-                    "phy_delay": 106488.0
-                },
-                {
-                    "route": [
-                        "ES5",
-                        "Bridge2",
+                        "ES9",
                         "Bridge3",
                         "Bridge8",
                         "Bridge7",
                         "Bridge6",
                         "Bridge5",
-                        "Bridge4",
-                        "ES12"
+                        "ES13"
                     ],
-                    "phy_delay": 119924.0
+                    "phy_delay": 93052.0
                 },
                 {
                     "route": [
-                        "ES5",
+                        "ES9",
+                        "Bridge3",
                         "Bridge2",
                         "Bridge1",
                         "Bridge9",
@@ -2064,15 +2010,69 @@
                         "Bridge7",
                         "Bridge6",
                         "Bridge5",
-                        "Bridge4",
-                        "ES12"
+                        "ES13"
                     ],
                     "phy_delay": 133360.0
                 }
             ],
             "priority": 5,
             "earliestOffset": 0,
-            "latestOffset": 1000000
+            "latestOffset": 2000000
+        },
+        {
+            "name": "Stream8",
+            "type": "TT",
+            "period": 2000000,
+            "framesPerPeriod": 1,
+            "maxFrameSize": 1542,
+            "maxLatency": 2000000,
+            "deadline": 2000000,
+            "talker": "ES9",
+            "listeners": [
+                "ES13"
+            ],
+            "path": [
+                {
+                    "route": [
+                        "ES9",
+                        "Bridge3",
+                        "Bridge4",
+                        "Bridge5",
+                        "ES13"
+                    ],
+                    "phy_delay": 66180.0
+                },
+                {
+                    "route": [
+                        "ES9",
+                        "Bridge3",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
+                        "Bridge5",
+                        "ES13"
+                    ],
+                    "phy_delay": 93052.0
+                },
+                {
+                    "route": [
+                        "ES9",
+                        "Bridge3",
+                        "Bridge2",
+                        "Bridge1",
+                        "Bridge9",
+                        "Bridge8",
+                        "Bridge7",
+                        "Bridge6",
+                        "Bridge5",
+                        "ES13"
+                    ],
+                    "phy_delay": 133360.0
+                }
+            ],
+            "priority": 5,
+            "earliestOffset": 0,
+            "latestOffset": 2000000
         }
     ],
     "nodes": [
@@ -2924,5 +2924,43 @@
             "egressQueues": 8,
             "gclEntries": 1024
         }
+    ],
+    "sorted_stream_order": [
+        "Stream13",
+        "Stream19",
+        "Stream2",
+        "Stream20",
+        "Stream22",
+        "Stream24",
+        "Stream28",
+        "Stream29",
+        "Stream3",
+        "Stream30",
+        "Stream34",
+        "Stream36",
+        "Stream4",
+        "Stream5",
+        "Stream6",
+        "Stream9",
+        "Stream1",
+        "Stream10",
+        "Stream11",
+        "Stream12",
+        "Stream14",
+        "Stream15",
+        "Stream16",
+        "Stream17",
+        "Stream18",
+        "Stream21",
+        "Stream23",
+        "Stream25",
+        "Stream26",
+        "Stream27",
+        "Stream31",
+        "Stream32",
+        "Stream33",
+        "Stream35",
+        "Stream7",
+        "Stream8"
     ]
 }

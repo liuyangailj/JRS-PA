@@ -126,7 +126,7 @@ def get_stream_phy_delay_on_path(data):
             # 如果满足 deadline，则保留，并保存计算结果
             if phy_delay < deadline:
                 valid_paths.append({
-                    'path': route,
+                    'route': route,
                     'phy_delay': phy_delay
                 })
         # 更新 stream 的路径信息
@@ -135,6 +135,41 @@ def get_stream_phy_delay_on_path(data):
     return data
 
     # -------------------------------------------------        
+
+def sort_streams(data):
+    """
+    对流数据进行排序:
+    - 首先按照 `period` 升序排列
+    - 如果 `period` 相同，则按流名 `name` 的字母序升序排列
+    """
+    streams = data.get("streams", [])
+
+    # 按规则排序
+    sorted_streams = sorted(streams, key=lambda s: (s.get("period", 0), s.get("name", "")))
+
+    # 更新排序后的顺序
+    data["sorted_stream_order"] = [s.get("name", "") for s in sorted_streams]
+    data["streams"] = sorted_streams
+
+    return data
+
+def select_optimal_routes(data):
+    """
+    筛选出每个streams中path里phy_delay最小的那个对应的route，
+    并只保留这个route和phy_delay作为新的streams的path。
+    """
+    for stream in data.get("streams", []):
+        # 检查流是否有路径信息
+        if "path" in stream and stream["path"]:
+            # 找到物理延迟最小的路径
+            optimal_path = min(stream["path"], key=lambda x: x["phy_delay"])
+            # 只保留最优路径
+            stream["path"] = [{"route": optimal_path["route"], "phy_delay": optimal_path["phy_delay"]}]
+        else:
+            # 如果没有路径信息，保留空列表
+            stream["path"] = []
+
+    return data
 
 def draw_topology(graph):
     """使用Matplotlib和NetworkX绘制网络拓扑"""
@@ -157,7 +192,12 @@ def draw_topology(graph):
 
 def main():
     json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
-    output_file = "../data/output/output_1.json"  # 输出文件路径
+    output_file = "../data/output/output.json"  # 输出文件路径
+    
+    test_output_file_1 = "../data/output/output_1.json"  # 输出文件路径
+    test_output_file_2 = "../data/output/output_2.json"  # 输出文件路径
+    test_output_file_3 = "../data/output/output_3.json"  # 输出文件路径
+    
     k = 4  # 短路径数量
 
     nt = NetworkTopology(json_file)
@@ -167,6 +207,13 @@ def main():
     graph = build_graph(nt.data)  # 构建图 
     compute_k_shortest_paths(graph, nt.data, k=k)  # 计算 k 最短路径 
     get_stream_phy_delay_on_path(nt.data)  # 计算流的物理延迟
+    nt.save_data(test_output_file_1)
+    
+    sort_streams(nt.data)  # 对流数据排序
+    nt.save_data(test_output_file_2)
+    
+    select_optimal_routes(nt.data)  # 选择最佳路径
+    nt.save_data(test_output_file_3)
 
     # # 保存处理后的数据
     nt.save_data(output_file)
