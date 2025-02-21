@@ -17,6 +17,60 @@ class NetworkTopology:
         """将处理后的数据保存到指定文件"""
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(self.data, f, indent=4)
+            
+    def build_link_mapping(self, data):
+        """从json数据中的 'links/ports' 构造链路映射字典.
+        key为 (source.lower(), destination.lower())，
+        value为对应的链路名称.
+        """
+        mapping = {}
+        for link in data.get("links/ports", []):
+            # 将source和destination都转为小写
+            src = link.get("source", "").lower()
+            dst = link.get("destination", "").lower()
+            mapping[(src, dst)] = link.get("name")
+            return mapping
+        
+    def convert_stream_routes(self, data):
+        """
+        遍历所有stream的path，将 route 节点顺序列表转化为链路
+        表示形式，根据链路对应的 source/destination 值（转成小写）
+        匹配link_mapping.转换前：
+        "route": 
+        ["ES8", 
+        "Bridge3", 
+        "Bridge4", 
+        "Bridge5", 
+        "ES14"]
+        转换为：
+        [
+            "Link17-2/Port35",    # 对应 ("es8", "bridge3")
+            "Link3-1/Port6",      # 对应 ("bridge3", "bridge4")
+            "Link5-1/Port10",     # 对应 ("bridge4", "bridge5")
+            "Link23-1/Port46"     # 对应 ("bridge5", "es14")
+        ]
+        """
+        link_mapping = self.build_link_mapping(data)    
+        # 遍历每个 stream
+        for stream in data.get("streams", []):
+            # 每个 stream 中可能包含多个 path
+            for path in stream.get("path", []):
+                route = path.get("route", [])
+                new_route = []
+                # 对于相邻节点对，查找对应的链路表示
+                for i in range(len(route) - 1):
+                    nodeA = route[i].lower()
+                    nodeB = route[i+1].lower()
+                    key = (nodeA, nodeB)
+                    link_name = link_mapping.get(key)
+                    if link_name:
+                        new_route.append(link_name)
+                    else:
+                        # 若找不到对应链接，可以保留节点对或报错，此处选择报错信息
+                        new_route.append(f"NotFound({nodeA}->{nodeB})")
+                # 更新 path 中的 route 字段
+                path["route"] = new_route        
+        return data
 
 def build_graph(data):
     """
@@ -224,14 +278,17 @@ def draw_topology(
     except Exception as e:
         print(f"绘图错误: {e}")
 
+'''
 # ------------------调度算法代码-------------------------------
 import numpy as np
 import math
 
 def calculate_tdi_and_ts(data):
     """
-    Step 1: 计算时间分段间隔 (TDI) 和时间槽长度 (TS)
+    Step 1: 计算时间分段间隔 (TDI)调度基本单元，即基周期
+    和时间槽长度 (TS)一个最大帧从一个节点发出到在下一节点被完全接收的时间
     需获取参数：pdbase, dtrans, dprop, dproc, nl_speed, l_mtu
+    
     """
     
        # 获取节点中 isBridge 为 True 的处理延时
@@ -282,9 +339,24 @@ def calculate_tdi_and_ts(data):
     return TDI, TS, GBI
 
 
-def calculate_tsai_and_ntstc(flow_periods, hops, nl_speeds, pdbase):
+def calculate_tsai_and_ntstc(data):
     """
-    Step 2: 计算时间槽分配间隔 (TSAI) 和每次时间槽分配间隔需分配的时间槽数量 (NTSTC)
+    Step 2: 
+    计算： 
+    1. TSAI (Time Slot Allocation Interval) 时间槽分配间隔
+    2. NTSTC (Number of Time Slots to be Allocated) 需要分配的时间槽数量
+    3. TCI (Time Slot Count Interval) 时间槽计数间隔
+    4. NTCI (Number of Time Slot Count Intervals) 时间槽计数间隔数量
+    
+    需获取参数：
+    1. 每条流的最优路径；
+    2. 所有使用到的出端口UEP（used egress ports）列表, 和UEP的数量 
+    3. 每个UEP的流量集合列表，和对应集合中的流量个数
+    4. 每个流的周期，即TSAI_i
+    5. 每个端口上的TDI
+
+
+    stream_periods, hops, nl_speed, pdbase
     """
     TSAIs = flow_periods  # 每个流的TSAI等于其周期，根据公式 (10)
     TSAI_max = max(TSAIs)  # 最大分配时间槽间隔，根据公式 (11)
@@ -347,34 +419,34 @@ def derive_gcl(schedule, TDI, NTSTCs):
         gcls[flow_id] = gcl
     return gcls
 
+    # 示例输入参数
+    flow_periods = [10, 20, 40]  # 每个流的周期 (单位：ms)
+    optimal_routes = [[1, 2, 3], [2, 3], [1, 2, 4, 5]]  # 每个流的最佳路径
+    hops = [len(route) for route in optimal_routes]  # 每个流的跳数
+    pdbase = min(flow_periods)  # 根据公式 (5)
+    nl_speed = 1e9  # 网络链路速度 (1Gbps)
+    l_mtu = 1500 * 8  # 网络MTU大小 (以比特计)
 
-# 示例输入参数
-flow_periods = [10, 20, 40]  # 每个流的周期 (单位：ms)
-optimal_routes = [[1, 2, 3], [2, 3], [1, 2, 4, 5]]  # 每个流的最佳路径
-hops = [len(route) for route in optimal_routes]  # 每个流的跳数
-pdbase = min(flow_periods)  # 根据公式 (5)
-nl_speed = 1e9  # 网络链路速度 (1Gbps)
-l_mtu = 1500 * 8  # 网络MTU大小 (以比特计)
+    # 延迟参数 (单位：ms)
+    dtrans = 0.1  # 传输延迟
+    dprop = 0.2  # 传播延迟
+    dproc = 0.05  # 处理延迟
 
-# 延迟参数 (单位：ms)
-dtrans = 0.1  # 传输延迟
-dprop = 0.2  # 传播延迟
-dproc = 0.05  # 处理延迟
+    # 调用各步骤函数
+    TDI, TS, GBI = calculate_tdi_and_ts(pdbase, dtrans, dprop, dproc, nl_speed, l_mtu)
+    TSAIs, TSAI_max, NTSTCs = calculate_tsai_and_ntstc(flow_periods, hops, nl_speed, pdbase)
+    schedule = schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs)
+    gcls = derive_gcl(schedule, TDI, NTSTCs)
 
-# 调用各步骤函数
-TDI, TS, GBI = calculate_tdi_and_ts(pdbase, dtrans, dprop, dproc, nl_speed, l_mtu)
-TSAIs, TSAI_max, NTSTCs = calculate_tsai_and_ntstc(flow_periods, hops, nl_speed, pdbase)
-schedule = schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs)
-gcls = derive_gcl(schedule, TDI, NTSTCs)
-
-# 输出结果
-print("TDI:", TDI, "TS:", TS, "GBI:", GBI)
-print("TSAI:", TSAIs, "TSAI_max:", TSAI_max, "NTSTC:", NTSTCs)
-print("Schedule:", schedule)
-print("GCLs:", gcls)
+    # 输出结果
+    print("TDI:", TDI, "TS:", TS, "GBI:", GBI)
+    print("TSAI:", TSAIs, "TSAI_max:", TSAI_max, "NTSTC:", NTSTCs)
+    print("Schedule:", schedule)
+    print("GCLs:", gcls)
 
 
-# -------------------------------------------------
+# -----------------调度算法函数结束--------------------------------
+'''
 def main():
     json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
     output_file = "../data/output/output.json"  # 输出文件路径
@@ -399,6 +471,9 @@ def main():
     
     select_optimal_routes(nt.data)  # 选择最佳路径
     nt.save_data(test_output_file_3)
+    
+    # 路径转化为链路
+    nt.convert_stream_routes(nt.data)
 
     # # 保存处理后的数据
     nt.save_data(output_file)
