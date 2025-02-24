@@ -285,8 +285,8 @@ def draw_topology(
 import numpy as np
 import math
 
-# 
-'''
+# ---------------------step 1 TDI计算开始--------------------------------
+
 def calculate_tdi_and_ts(data):
     """
     Step 1: 计算时间分段间隔 (TDI)调度基本单元，即基周期
@@ -320,14 +320,14 @@ def calculate_tdi_and_ts(data):
     
     # 获取流的最大帧大小和每周期帧数
     first_stream = data.get('streams', [{}])[0] # 仅获取第一个流的信息
-    
     framesize = first_stream.get('maxFrameSize', 0)
     framesperperiod = first_stream.get('framesPerPeriod', 0)
     
     # 计算传输延时 = framesize * framesperperiod / transmission_rate
     if transmission_rate == 0:
         print("transmission_rate 为 0，无法计算延时")
-        continue
+        return data
+    
     transmission_delay = framesize * framesperperiod / transmission_rate
 
     # 获取流的最小周期
@@ -340,9 +340,12 @@ def calculate_tdi_and_ts(data):
     GBI = 1542/ transmission_rate  # 根据公式 (9)
     
     TS = transmission_delay + propagation_delay + processing_delay  # 根据公式 (10)
+    
     return TDI, TS, GBI
-'''
 
+# ---------------------step 1 TDI计算结束--------------------------------
+
+# ---------------------step 2 NTSTC计算开始--------------------------------
 def calculate_tsai_and_ntstc(data):
     """
     Step 2: 
@@ -444,9 +447,10 @@ def calculate_tsai_and_ntstc(data):
         "Used_ports": used_ports_list
     }
     return used_ports_data
+# ---------------------step2 NTSTC计算结束--------------------------------
 
 
-
+# ---------------------step 3调度--------------------------------
 def schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs):
     """
     Step 3: 为每个流调度分配时间槽
@@ -543,6 +547,11 @@ def main():
     # 路径转化为链路
     nt.convert_stream_routes(nt.data)
     nt.save_data(test_output_file_4)
+    
+    # 计算TDI, TS, GBI
+    TDI, TS, GBI = calculate_tdi_and_ts(nt.data)
+    print("TDI:", TDI, "TS:", TS, "GBI:", GBI)
+    
     # 计算NTSTC
     output_data = calculate_tsai_and_ntstc(nt.data)
     # 输出到结果文件 output_5.json，可以调整路径    
