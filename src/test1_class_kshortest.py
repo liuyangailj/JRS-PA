@@ -438,12 +438,12 @@ def calculate_tsai_and_ntstc(data):
         })
         
     # 构造最顶层的输出字典
-    output_data = {
+    used_ports_data = {
         "name": "Used_Ports",
         "PortsNum": len(used_ports_list),
         "Used_ports": used_ports_list
     }
-    return output_data
+    return used_ports_data
 
 
 

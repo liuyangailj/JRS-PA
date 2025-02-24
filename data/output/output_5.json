@@ -3,19 +3,7 @@
     "PortsNum": 5,
     "Used_ports": [
         {
-            "port_name": "Link0-1/Port0",
-            "streams_on_this_port": [
-                "Stream1",
-                "Stream2"
-            ],
-            "streamsNum": 2,
-            "portTDI": 150000,
-            "max_hops_of_these_streams": 3,
-            "stream_with_max_hops": "Stream2",
-            "NTSTC": 3.0
-        },
-        {
-            "port_name": "Link1-1/Port2",
+            "port_name": "Link10-2/Port21",
             "streams_on_this_port": [
                 "Stream2"
             ],
@@ -49,7 +37,7 @@
             "NTSTC": 3.0
         },
         {
-            "port_name": "Link10-2/Port21",
+            "port_name": "Link1-1/Port2",
             "streams_on_this_port": [
                 "Stream2"
             ],
@@ -58,6 +46,18 @@
             "max_hops_of_these_streams": 3,
             "stream_with_max_hops": "Stream2",
             "NTSTC": 4.0
+        },
+        {
+            "port_name": "Link0-1/Port0",
+            "streams_on_this_port": [
+                "Stream1",
+                "Stream2"
+            ],
+            "streamsNum": 2,
+            "portTDI": 150000,
+            "max_hops_of_these_streams": 3,
+            "stream_with_max_hops": "Stream2",
+            "NTSTC": 3.0
         }
     ]
 }
