@@ -12,6 +12,7 @@
     "framesPerPeriod": 1,
     "listenersPerStream": 1,
     "streams": [
+        
         {
             "name": "Stream1",
             "type": "TT",
@@ -25,15 +26,7 @@
                 "ES4"
             ],
             "path": [
-                {
-                    "route": [
-                        "ES2",
-                        "Bridge1",
-                        "Bridge2",
-                        "ES4"
-                    ],
-                    "phy_delay": 52744.0
-                }
+                
             ],
             "priority": 5,
             "earliestOffset": 0,
@@ -52,21 +45,12 @@
                 "ES9"
             ],
             "path": [
-                {
-                    "route": [
-                        "ES2",
-                        "Bridge1",
-                        "Bridge2",
-                        "Bridge3",
-                        "ES9"
-                    ],
-                    "phy_delay": 66180.0
-                }
+                
             ],
             "priority": 5,
             "earliestOffset": 0,
             "latestOffset": 1000000
-        }
+        }       
     ],
     "nodes": [
         {
@@ -113,7 +97,7 @@
             "name": "ES9",
             "isBridge": false,
             "processingDelay": 0
-        },
+        },        
         {
             "name": "Bridge1",
             "isBridge": true,
@@ -129,6 +113,7 @@
             "isBridge": true,
             "processingDelay": 1000
         }
+                
     ],
     "links/ports": [
         {
@@ -311,6 +296,7 @@
             "egressQueues": 8,
             "gclEntries": 1024
         },
+        
         {
             "name": "Link10-1/Port20",
             "source": "ES9",
@@ -329,9 +315,6 @@
             "egressQueues": 8,
             "gclEntries": 1024
         }
-    ],
-    "sorted_stream_order": [
-        "Stream1",
-        "Stream2"
+              
     ]
 }

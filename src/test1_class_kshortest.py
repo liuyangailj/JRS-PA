@@ -1,6 +1,8 @@
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
+import math
 from networkx.algorithms.simple_paths import shortest_simple_paths
 
 class NetworkTopology:
@@ -29,7 +31,7 @@ class NetworkTopology:
             src = link.get("source", "").lower()
             dst = link.get("destination", "").lower()
             mapping[(src, dst)] = link.get("name")
-            return mapping
+        return mapping
         
     def convert_stream_routes(self, data):
         """
@@ -278,11 +280,13 @@ def draw_topology(
     except Exception as e:
         print(f"绘图错误: {e}")
 
-'''
+# '''
 # ------------------调度算法代码-------------------------------
 import numpy as np
 import math
 
+# 
+'''
 def calculate_tdi_and_ts(data):
     """
     Step 1: 计算时间分段间隔 (TDI)调度基本单元，即基周期
@@ -337,7 +341,7 @@ def calculate_tdi_and_ts(data):
     
     TS = transmission_delay + propagation_delay + processing_delay  # 根据公式 (10)
     return TDI, TS, GBI
-
+'''
 
 def calculate_tsai_and_ntstc(data):
     """
@@ -358,16 +362,89 @@ def calculate_tsai_and_ntstc(data):
 
     stream_periods, hops, nl_speed, pdbase
     """
-    TSAIs = flow_periods  # 每个流的TSAI等于其周期，根据公式 (10)
-    TSAI_max = max(TSAIs)  # 最大分配时间槽间隔，根据公式 (11)
-    
-    NTSTCs = []
-    for flow_period, hop_count in zip(flow_periods, hops):
-        beta = flow_period / pdbase
-        additional_slots = hop_count / beta  # 每个流额外时间槽分配，根据公式 (12)
-        NTSTC = math.ceil(sum(1 / (period / pdbase) for period in flow_periods) + additional_slots)
-        NTSTCs.append(NTSTC)
-    return TSAIs, TSAI_max, NTSTCs
+    streams = data.get("streams", [])
+
+    # 用于存储所有去重的端口，及端口对应的流信息
+    used_ports = set()
+    # 结构： { port: [ { "name": stream_name, "period": period, "hops": hops }, ... ] }
+    port_to_streams = {}
+
+    # 遍历所有 streams 提取信息
+    for stream in streams:
+        stream_name = stream.get("name")
+        stream_period = stream.get("period")
+        stream_paths = stream.get("path", [])
+        # 对于每个流，可能有多个 path，每个 path 中的 route 端口列表
+        for path in stream_paths:
+            routes = path.get("route", [])
+            # 计算该流在此条路由上的 hop 数：取 route 长度减 1
+            hops = max(len(routes) - 1, 0)
+            for port in routes:
+                port = port.strip()
+                used_ports.add(port)
+                if port not in port_to_streams:
+                    port_to_streams[port] = []
+                # 保存当前流的信息到该端口
+                port_to_streams[port].append({
+                    "name": stream_name,
+                    "period": stream_period,
+                    "hops": hops
+                })
+
+    # 构造结果的 Used_ports 列表
+    used_ports_list = []
+    for port in used_ports:
+        streams_info = port_to_streams.get(port, [])
+        if not streams_info:
+            continue
+
+        # 统计该端口上的流名称列表
+        streams_on_this_port = [s["name"] for s in streams_info]
+        streamsNum = len(streams_info)
+        # portTDI 为该端口上所有流中 period 的最大值
+        portTDI = min(s["period"] for s in streams_info)
+        # 最大跳数及对应流
+        max_hops = -1
+        stream_with_max_hops = None
+        for s in streams_info:
+            if s["hops"] > max_hops:
+                max_hops = s["hops"]
+                stream_with_max_hops = s
+        
+        # 计算第一部分 NTSTC：所有流占用 TS 数之和：portTDI / stream.period 累加
+        ts_sum = 0.0
+        for s in streams_info:
+            # 为了避免除以0，这里认为 period 必须大于0
+            if s["period"] > 0:
+                ts_sum += portTDI / s["period"]
+        
+        # 计算第二部分 NTSTC：最大跳数对应流的 TS 数补偿
+        # stream_with_max_hops 中 period 用于计算
+        extra_ts = 0.0
+        if stream_with_max_hops and stream_with_max_hops["period"] > 0:
+            extra_ts = max_hops / (stream_with_max_hops["period"] / portTDI)
+        
+        NTSTC = np.ceil(ts_sum + extra_ts)
+        # NTSTC = ts_sum
+        
+        used_ports_list.append({
+            "port_name": port,
+            "streams_on_this_port": streams_on_this_port,
+            "streamsNum": streamsNum,
+            "portTDI": portTDI,
+            "max_hops_of_these_streams": max_hops,
+            "stream_with_max_hops": stream_with_max_hops["name"] if stream_with_max_hops else None,
+            "NTSTC": NTSTC
+        })
+        
+    # 构造最顶层的输出字典
+    output_data = {
+        "name": "Used_Ports",
+        "PortsNum": len(used_ports_list),
+        "Used_ports": used_ports_list
+    }
+    return output_data
+
 
 
 def schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs):
@@ -419,41 +496,32 @@ def derive_gcl(schedule, TDI, NTSTCs):
         gcls[flow_id] = gcl
     return gcls
 
-    # 示例输入参数
-    flow_periods = [10, 20, 40]  # 每个流的周期 (单位：ms)
-    optimal_routes = [[1, 2, 3], [2, 3], [1, 2, 4, 5]]  # 每个流的最佳路径
-    hops = [len(route) for route in optimal_routes]  # 每个流的跳数
-    pdbase = min(flow_periods)  # 根据公式 (5)
-    nl_speed = 1e9  # 网络链路速度 (1Gbps)
-    l_mtu = 1500 * 8  # 网络MTU大小 (以比特计)
-
-    # 延迟参数 (单位：ms)
-    dtrans = 0.1  # 传输延迟
-    dprop = 0.2  # 传播延迟
-    dproc = 0.05  # 处理延迟
-
-    # 调用各步骤函数
-    TDI, TS, GBI = calculate_tdi_and_ts(pdbase, dtrans, dprop, dproc, nl_speed, l_mtu)
-    TSAIs, TSAI_max, NTSTCs = calculate_tsai_and_ntstc(flow_periods, hops, nl_speed, pdbase)
-    schedule = schedule_flows(flow_periods, optimal_routes, hops, pdbase, TDI, TSAIs, NTSTCs)
-    gcls = derive_gcl(schedule, TDI, NTSTCs)
-
-    # 输出结果
-    print("TDI:", TDI, "TS:", TS, "GBI:", GBI)
-    print("TSAI:", TSAIs, "TSAI_max:", TSAI_max, "NTSTC:", NTSTCs)
-    print("Schedule:", schedule)
-    print("GCLs:", gcls)
-
 
 # -----------------调度算法函数结束--------------------------------
-'''
+# '''
+
 def main():
-    json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
+    # 执行代码使用
+    # json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
+    json_file = "../data/input/bridge3_es9_line_example.json" 
     output_file = "../data/output/output.json"  # 输出文件路径
     
-    test_output_file_1 = "../data/output/output_1.json"  # 输出文件路径
-    test_output_file_2 = "../data/output/output_2.json"  # 输出文件路径
-    test_output_file_3 = "../data/output/output_3.json"  # 输出文件路径
+    test_output_file_1 = "../data/output/output_1.json"  # 输出文件路径 "k 最短路径 + 物理延迟"  
+    test_output_file_2 = "../data/output/output_2.json"  # 输出文件路径 "排序"
+    test_output_file_3 = "../data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
+    test_output_file_4 = "../data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
+    test_output_file_5 = "../data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
+    
+    # # 调试代码使用路径
+    # json_file = "./data/input/test_1.json"  # 请修改为实际的JSON文件路径
+    # output_file = "./data/output/output.json"  # 输出文件路径
+    
+    # test_output_file_1 = "./data/output/output_1.json"  # 输出文件路径 "k 最短路径 + 物理延迟"  
+    # test_output_file_2 = "./data/output/output_2.json"  # 输出文件路径 "排序"
+    # test_output_file_3 = "./data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
+    # test_output_file_4 = "./data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
+    # test_output_file_5 = "./data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
+    
     
     k = 4  # 短路径数量
 
@@ -474,6 +542,15 @@ def main():
     
     # 路径转化为链路
     nt.convert_stream_routes(nt.data)
+    nt.save_data(test_output_file_4)
+    # 计算NTSTC
+    output_data = calculate_tsai_and_ntstc(nt.data)
+    # 输出到结果文件 output_5.json，可以调整路径    
+    with open(test_output_file_5, 'w', encoding='utf-8') as f:
+        json.dump(output_data, f, indent=4, ensure_ascii=False)
+
+    print("结果已写入文件：", output_file)
+
 
     # # 保存处理后的数据
     nt.save_data(output_file)
