@@ -372,6 +372,7 @@ def calculate_tsai_and_ntstc(data):
     used_ports = set()
     # 结构： { port: [ { "name": stream_name, "period": period, "hops": hops }, ... ] }
     port_to_streams = {}
+    portTDI = calculate_tdi_and_ts(data)[0]
 
     # 遍历所有 streams 提取信息
     for stream in streams:
@@ -405,8 +406,9 @@ def calculate_tsai_and_ntstc(data):
         # 统计该端口上的流名称列表
         streams_on_this_port = [s["name"] for s in streams_info]
         streamsNum = len(streams_info)
-        # portTDI 为该端口上所有流中 period 的最大值
-        portTDI = min(s["period"] for s in streams_info)
+        # portTDI 为该端口上所有流中 period 的最大值, 在此处的计算中，TDI是否还是保持全网的TDI=pdbase
+        # portTDI = min(s["period"] for s in streams_info)
+        
         # 最大跳数及对应流
         max_hops = -1
         stream_with_max_hops = None
@@ -429,7 +431,7 @@ def calculate_tsai_and_ntstc(data):
             extra_ts = max_hops / (stream_with_max_hops["period"] / portTDI)
         
         
-        NTSTC = np.ceil(ts_sum + extra_ts)
+        NTSTC = int(np.ceil(ts_sum + extra_ts))
         TCI = NTSTC*TS
         
         used_ports_list.append({
@@ -485,49 +487,74 @@ def calculate_tsai_and_ntstc(data):
 # 每个流在初始端口上的分配为 (port_allocation[port].STDIN, port_allocation[port].SSN)
 # 后续端口的分配基于上一端口的结果递推
 
-def allocate_time_slots(streams, TASImax, NTSTC):
+def allocate_time_slots(data, used_ports_data):
     # 初始化一个矩阵记录所有端口每个 (STDIN, SSN) 是否被分配
     # 假设 STDIN 取值 1 到 TASImax_TDI，SSN取值 1 到 NTSTC
     # 这里表示为二维字典：Used_TS_allocation[port][STDIN][SSN] = True/False
     # 如果所有端口共用同一分配矩阵，则对应端口的实例分别保存分配信息
     Used_TS_allocation = {}  # 用于每个端口存储分配情况， key为端口标识
-
+   
     # 假设存在函数 init_allocation(port) 用于初始化某端口的 allocation 状态
-    def init_allocation(port):
+    def init_allocation(port, NTSTC, TASI_max_TDI):
         if port not in Used_TS_allocation:
             Used_TS_allocation[port] = {}
             # STDIN 范围为 1 到 TASImax/TDI (上界值)
-            for sdin in range(1, TASImax+1):
-                Used_TS_allocation[port][sdin] = {}
-                for ssn in range(1, NTSTC+1):
-                    Used_TS_allocation[port][sdin][ssn] = False
+            for stdin in range(1, TASI_max_TDI+1):
+                Used_TS_allocation[port][stdin] = {}
+                for ssn in range(1, NTSTC + 1):
+                    Used_TS_allocation[port][stdin][ssn] = False
 
     # 保存每个流每个端口的分配结果
-    allocation_result = {}  # allocation_result[flow_id][port] = (STDIN, SSN)
+    allocation_result = {}  # allocation_result[stream_id][port] = (STDIN, SSN)
+    # 获取流数据信息
+    streams = data.get("streams", [])
+    if streams:
+        TASI_max = max([stream.get("period", 0) for stream in streams if stream.get("period", 0) > 0])
+    else:
+        TASI_max = 0    
+    
+    # 调用函数获取 TDI 和 TS
+    # # 计算 一个调度周期TASImax内的TDI数量
+    TDI = calculate_tdi_and_ts(data)[0]    
+    TASI_max_TDI = int(TASI_max / TDI) if TDI != 0 else 0
+    
+    # 保存每个流在每个端口的分配结果 allocation_result[stream_id][port] = (STDIN, SSN)
+    allocation_result = {}
+    
+    
 
     # 对于每个流
     for stream in streams:
-        flow_id = stream['id']
-        allocation_result[flow_id] = {}
-        ports = stream['route']
+        stream_id = stream['name']
+        stream_path = stream['path']
+        allocation_result[stream_id] = {}
+        ports_list = stream["path"][0]['route'] # 获取流经过的端口列表 stream.path.route
 
         # 处理第一个端口：逐个遍历 STDIN 寻找合适位置
-        first_port = ports[0]
-        init_allocation(first_port)
+        first_port = ports_list[0]
+        for port in used_ports_data["Used_ports"]:
+            if port["port_name"] == first_port:
+                first_port_NTSTC = port["NTSTC"]
+                break
+        if first_port_NTSTC is None:
+            raise Exception(f"端口 {first_port} 的 NTSTC 未找到！")
+        
+        init_allocation(first_port, first_port_NTSTC, TASI_max_TDI)
         allocated = False
         # 从 STDIN=1 开始检查，注意上界为 TASImax
-        sdin = 1
+        stdin = 1
         ssn = 1
+        
         # 循环外层，直到找到合适槽位或遍历完所有可能位置
-        while sdin <= TASImax and not allocated:
+        while stdin <= TASI_max_TDI and not allocated:
             # 计算剩余槽位 RTS = NTSTC - 当前 SSN + 1 （因为 SSN 是当前未被分配槽位起点）
-            RTS = NTSTC - ssn + 1
+            RTS = first_port_NTSTC - ssn + 1
             # 判断条件：需要至少 1 个槽位（通常条件可以是1 ≤ RTS < NTSTC，但实际判断槽位是否足够）
             if RTS >= 1:
                 # 若当前槽位未被分配，则分配该位置
-                if not Used_TS_allocation[first_port][sdin][ssn]:
-                    allocation_result[flow_id][first_port] = (sdin, ssn)
-                    Used_TS_allocation[first_port][sdin][ssn] = True
+                if not Used_TS_allocation[first_port][stdin][ssn]:
+                    allocation_result[stream_id][first_port] = (stdin, ssn)
+                    Used_TS_allocation[first_port][stdin][ssn] = True
                     allocated = True
                     # 更新 ssn 为下一槽位供下一次使用（如有需要后续再分配当前流在同一端口的其他 TS）
                     ssn += 1
@@ -536,48 +563,57 @@ def allocate_time_slots(streams, TASImax, NTSTC):
                     ssn += 1
             else:
                 # RTS 小于1时，说明当前 STDIN 已无足够槽位，转向下一个 STDIN，将 ssn 重置为 1
-                sdin += 1
+                stdin += 1
                 ssn = 1
         if not allocated:
-            raise Exception(f"流 {flow_id} 在第一个端口分配失败，请检查 TASImax 或 NTSTC 参数！")
+            raise Exception(f"流 {stream_id} 在第一个端口分配失败，请检查 TASImax 或 NTSTC 参数！")
         # 对于后续端口，采用递推方式分配
         # 注意每个端口都需要初始化其 Used_TS_allocation 状态
-        previous_sdin, previous_ssn = allocation_result[flow_id][first_port]
-        for i in range(1, len(ports)):
-            curr_port = ports[i]
-            init_allocation(curr_port)
+        previous_stdin, previous_ssn = allocation_result[stream_id][first_port]
+        for i in range(1, len(ports_list)):
+            curr_port = ports_list[i]
+            curr_port_NTSTC = None
+            for port in used_ports_data["Used_ports"]:
+                if port["port_name"] == curr_port:
+                    curr_port_NTSTC = port["NTSTC"]
+                    break
+            if curr_port_NTSTC is None: 
+                raise Exception(f"端口 {curr_port} 的 NTSTC 未找到！")
+            
+            init_allocation(curr_port, curr_port_NTSTC, TASI_max_TDI)
             # 递推规则：如果上一端口的 ssn 小于 NTSTC，则当前端口的分配与上一端口相同 STDIN, SSN+1
-            if previous_ssn < NTSTC:
-                curr_sdin = previous_sdin
+            if previous_ssn < curr_port_NTSTC:
+                curr_stdin = previous_stdin
                 curr_ssn = previous_ssn + 1
             else:
                 # 如果上一端口 ssn 已等于 NTSTC，则 STDIN 自增，SSN 重置为 1
-                curr_sdin = previous_sdin + 1
+                curr_stdin = previous_stdin + 1
                 curr_ssn = 1
             # 检查当前 slot 是否已经被分配
             # 若已分配，则需要在当前端口内找第一个未分配槽位，类似第一个端口的逻辑
             allocated_curr = False
-            temp_sdin = curr_sdin
+            temp_stdin = curr_stdin
             temp_ssn = curr_ssn
-            while temp_sdin <= TASImax and not allocated_curr:
-                if not Used_TS_allocation[curr_port][temp_sdin][temp_ssn]:
+            
+            while temp_stdin <= TASI_max_TDI and not allocated_curr:
+                if not Used_TS_allocation[curr_port][temp_stdin][temp_ssn]:
                     # 分配给当前端口
-                    allocation_result[flow_id][curr_port] = (temp_sdin, temp_ssn)
-                    Used_TS_allocation[curr_port][temp_sdin][temp_ssn] = True
+                    allocation_result[stream_id][curr_port] = (temp_stdin, temp_ssn)
+                    Used_TS_allocation[curr_port][temp_stdin][temp_ssn] = True
                     allocated_curr = True
                     # 更新递推变量以便下一端口使用
-                    previous_sdin = temp_sdin
+                    previous_stdin = temp_stdin
                     previous_ssn = temp_ssn
                 else:
                     # 如果当前槽位被占用，则往后找
                     temp_ssn += 1
-                    if temp_ssn > NTSTC:
-                        temp_sdin += 1
+                    if temp_ssn > curr_port_NTSTC:
+                        temp_stdin += 1
                         temp_ssn = 1
             if not allocated_curr:
-                raise Exception(f"流 {flow_id} 在端口 {curr_port} 分配失败！")
+                raise Exception(f"流 {stream_id} 在端口 {curr_port} 分配失败！")
     return allocation_result
-
+'''
 # 示例调用
 if __name__ == "__main__":
     # 构造测试数据：假定每个流有 id 和经过的端口列表 route（端口标识符）
@@ -593,9 +629,9 @@ if __name__ == "__main__":
         print(f"流 {flow} 的分配结果:")
         for port, slot in ports.items():
             print(f"    端口 {port}: STDIN = {slot[0]}, SSN = {slot[1]}")
-```
-```  
-该代码充分优化了描述中的步骤，使得对于第一个端口采用遍历查找可用位置，对于后续端口采用递推方式，同时遇到已被占用的槽位时用内部循环继续查找空闲槽位。
+'''
+
+# 该代码充分优化了描述中的步骤，使得对于第一个端口采用遍历查找可用位置，对于后续端口采用递推方式，同时遇到已被占用的槽位时用内部循环继续查找空闲槽位。
 # -------------------------------调度结束------------------------------------------
 
 def derive_gcl(schedule, TDI, NTSTCs):
@@ -603,9 +639,9 @@ def derive_gcl(schedule, TDI, NTSTCs):
     Step 4: 提取为TSN交换机生成GCL
     """
     gcls = {}
-    for flow_id, flow_schedule in schedule.items():
+    for stream_id, flow_schedule in schedule.items():
         gcl = {
-            "flow": flow_id,
+            "flow": stream_id,
             "time_slots": [],
         }
         for entry in flow_schedule:
@@ -614,7 +650,7 @@ def derive_gcl(schedule, TDI, NTSTCs):
                 "start": entry["start_time"],
                 "end": entry["end_time"]
             })
-        gcls[flow_id] = gcl
+        gcls[stream_id] = gcl
     return gcls
 
 
@@ -623,25 +659,25 @@ def derive_gcl(schedule, TDI, NTSTCs):
 
 def main():
     # 执行代码使用
-    # json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
-    # json_file = "../data/input/bridge3_es9_line_example.json" 
-    # output_file = "../data/output/output.json"  # 输出文件路径
+    json_file = "../data/input/test_1.json"  # 请修改为实际的JSON文件路径
+    json_file = "../data/input/bridge3_es9_line_example.json" 
+    output_file = "../data/output/output.json"  # 输出文件路径
     
-    # test_output_file_1 = "../data/output/output_1.json"  # 输出文件路径 "k 最短路径 + 物理延迟"  
-    # test_output_file_2 = "../data/output/output_2.json"  # 输出文件路径 "排序"
-    # test_output_file_3 = "../data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
-    # test_output_file_4 = "../data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
-    # test_output_file_5 = "../data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
+    test_output_file_1 = "../data/output/output_1.json"  # 输出文件路径 "k 最短路径 + 物理延迟"  
+    test_output_file_2 = "../data/output/output_2.json"  # 输出文件路径 "排序"
+    test_output_file_3 = "../data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
+    test_output_file_4 = "../data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
+    test_output_file_5 = "../data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
     
-    # # 调试代码使用路径
-    json_file = "./data/input/test_1.json"  # 请修改为实际的JSON文件路径
-    output_file = "./data/output/output.json"  # 输出文件路径
+    # # # 调试代码使用路径
+    # json_file = "./data/input/test_1.json"  # 请修改为实际的JSON文件路径
+    # output_file = "./data/output/output.json"  # 输出文件路径
     
-    test_output_file_1 = "./data/output/output_1.json"  # 输出文件路径 "k 最短路径 + 物理延迟"  
-    test_output_file_2 = "./data/output/output_2.json"  # 输出文件路径 "排序"
-    test_output_file_3 = "./data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
-    test_output_file_4 = "./data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
-    test_output_file_5 = "./data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
+    # test_output_file_1 = "./data/output/output_1.json"  # 输出文件路径 "k 最短路径 + 物理延迟"  
+    # test_output_file_2 = "./data/output/output_2.json"  # 输出文件路径 "排序"
+    # test_output_file_3 = "./data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
+    # test_output_file_4 = "./data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
+    # test_output_file_5 = "./data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
     
     
     k = 4  # 短路径数量
@@ -670,12 +706,18 @@ def main():
     print("TDI:", TDI, "TS:", TS, "GBI:", GBI)
     
     # 计算NTSTC
-    output_data = calculate_tsai_and_ntstc(nt.data)
+    used_ports_data = calculate_tsai_and_ntstc(nt.data)
     # 输出到结果文件 output_5.json，可以调整路径    
     with open(test_output_file_5, 'w', encoding='utf-8') as f:
-        json.dump(output_data, f, indent=4, ensure_ascii=False)
+        json.dump(used_ports_data, f, indent=4, ensure_ascii=False)
 
-    print("结果已写入文件：", output_file)
+    print("tsai，ntstc的计算结果已写入文件：", test_output_file_5)
+    
+    # 为每个流安排TS位置
+    
+    allocate_time_slots(nt.data, used_ports_data)
+    
+    
 
 
     # # 保存处理后的数据
