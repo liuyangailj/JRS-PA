@@ -668,6 +668,7 @@ def main():
     test_output_file_3 = "../data/output/output_3.json"  # 输出文件路径 "选择最佳路径"
     test_output_file_4 = "../data/output/output_4.json"  # 输出文件路径 "路径转化为链路"
     test_output_file_5 = "../data/output/output_5.json"  # 输出文件路径 "计算NTSTC"
+    allocation_result_file = "../data/output/output_allocation_result.json"  # 输出文件路径 "计算NTSTC"
     
     # # # 调试代码使用路径
     # json_file = "./data/input/test_1.json"  # 请修改为实际的JSON文件路径
@@ -715,9 +716,11 @@ def main():
     
     # 为每个流安排TS位置
     
-    allocate_time_slots(nt.data, used_ports_data)
+    allocation_result = allocate_time_slots(nt.data, used_ports_data)
     
-    
+    # 保存结果到 JSON 文件
+    with open(allocation_result_file, 'w', encoding='utf-8') as f1:
+        json.dump(allocation_result, f1, indent=4, ensure_ascii=False)
 
 
     # # 保存处理后的数据
