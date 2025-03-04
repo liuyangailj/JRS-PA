@@ -464,7 +464,7 @@ def calculate_tsai_and_ntstc(data):
    b. 若是第一个端口，则：
       i. 遍历 STDIN 从 1 到 TASImax/TDI（注意 TDI 为端口单独的时间间隔）：
           - 计算 RTS = NTSTC - SSN 。
-          - 如果满足 1 ≤ RTS < NTSTC（即当前 SSN 处有足够槽位供流分配），则将当前 STDIN 和 SSN 分配给流在该端口上的时间槽，并将 Used_TS_allocation[STDIN][SSN] 更新为 True，同时将 SSN 自增 1 。
+          - 如果满足 1 ≤ RTS < NTSTC（即当前 SSN 处有足够槽位供流分配），则将当前 STDIN 和 SSN 分配给流在该端口上的时间槽，并将 used_time_slot_allocation[STDIN][SSN] 更新为 True，同时将 SSN 自增 1 。
           - 如果 RTS 小于 1（槽位不足），则 STDIN 自增 1，SSN 重置为 1，然后重新判断（直到找到满足条件的位置或 STDIN 达到上限且 SSN 等于 NTSTC）。
       ii. 保存当前分配的 STDIN 和 SSN 作为该流在第一个端口的初始值 .
    c. 对于后续端口：
@@ -481,7 +481,7 @@ def calculate_tsai_and_ntstc(data):
 # streams: 流集合，每个流有 route（端口列表）和其他属性
 # TASImax: 最大时隙分配区间（对应 TSAImax）
 # NTSTC: 每个端口的时间临界数据区间内槽位数（TS的总槽数）
-# Used_TS_allocation: 字典或二维数组，记录每个 (STDIN, SSN) 是否已被使用
+# used_time_slot_allocation: 字典或二维数组，记录每个 (STDIN, SSN) 是否已被使用
 
 # 假设每个端口独立保存自己的 STDIN 和 SSN 初始值，即：
 # 每个流在初始端口上的分配为 (port_allocation[port].STDIN, port_allocation[port].SSN)
@@ -492,17 +492,17 @@ def allocate_time_slots(data, used_ports_data):
     # 假设 STDIN 取值 1 到 TASImax_TDI，SSN取值 1 到 NTSTC
     # 这里表示为二维字典：Used_TS_allocation[port][STDIN][SSN] = True/False
     # 如果所有端口共用同一分配矩阵，则对应端口的实例分别保存分配信息
-    Used_TS_allocation = {}  # 用于每个端口存储分配情况， key为端口标识
+    used_time_slot_allocation = {}  # 用于每个端口存储分配情况， key为端口标识
    
     # 假设存在函数 init_allocation(port) 用于初始化某端口的 allocation 状态
     def init_allocation(port, NTSTC, TASI_max_TDI):
-        if port not in Used_TS_allocation:
-            Used_TS_allocation[port] = {}
+        if port not in used_time_slot_allocation:
+            used_time_slot_allocation[port] = {}
             # STDIN 范围为 1 到 TASImax/TDI (上界值)
             for stdin in range(1, TASI_max_TDI+1):
-                Used_TS_allocation[port][stdin] = {}
+                used_time_slot_allocation[port][stdin] = {}
                 for ssn in range(1, NTSTC + 1):
-                    Used_TS_allocation[port][stdin][ssn] = False
+                    used_time_slot_allocation[port][stdin][ssn] = False
 
     # 保存每个流每个端口的分配结果
     allocation_result = {}  # allocation_result[stream_id][port] = (STDIN, SSN)
@@ -552,9 +552,9 @@ def allocate_time_slots(data, used_ports_data):
             # 判断条件：需要至少 1 个槽位（通常条件可以是1 ≤ RTS < NTSTC，但实际判断槽位是否足够）
             if RTS >= 1:
                 # 若当前槽位未被分配，则分配该位置
-                if not Used_TS_allocation[first_port][stdin][ssn]:
+                if not used_time_slot_allocation[first_port][stdin][ssn]:
                     allocation_result[stream_id][first_port] = (stdin, ssn)
-                    Used_TS_allocation[first_port][stdin][ssn] = True
+                    used_time_slot_allocation[first_port][stdin][ssn] = True
                     allocated = True
                     # 更新 ssn 为下一槽位供下一次使用（如有需要后续再分配当前流在同一端口的其他 TS）
                     ssn += 1
@@ -568,7 +568,7 @@ def allocate_time_slots(data, used_ports_data):
         if not allocated:
             raise Exception(f"流 {stream_id} 在第一个端口分配失败，请检查 TASImax 或 NTSTC 参数！")
         # 对于后续端口，采用递推方式分配
-        # 注意每个端口都需要初始化其 Used_TS_allocation 状态
+        # 注意每个端口都需要初始化其 used_time_slot_allocation 状态
         previous_stdin, previous_ssn = allocation_result[stream_id][first_port]
         for i in range(1, len(ports_list)):
             curr_port = ports_list[i]
@@ -596,10 +596,10 @@ def allocate_time_slots(data, used_ports_data):
             temp_ssn = curr_ssn
             
             while temp_stdin <= TASI_max_TDI and not allocated_curr:
-                if not Used_TS_allocation[curr_port][temp_stdin][temp_ssn]:
+                if not used_time_slot_allocation[curr_port][temp_stdin][temp_ssn]:
                     # 分配给当前端口
                     allocation_result[stream_id][curr_port] = (temp_stdin, temp_ssn)
-                    Used_TS_allocation[curr_port][temp_stdin][temp_ssn] = True
+                    used_time_slot_allocation[curr_port][temp_stdin][temp_ssn] = True
                     allocated_curr = True
                     # 更新递推变量以便下一端口使用
                     previous_stdin = temp_stdin
