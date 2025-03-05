@@ -6,7 +6,7 @@ from src.data_manager import DataManager
 from src.router import Router
 from src.scheduler import Scheduler
 from src.sort_streams import sort_streams
-
+from src.draw_topology import draw_topology
 
 def main():
     input_file = "./data/input/bridge3_es9_line_example.json" 
@@ -24,8 +24,8 @@ def main():
     # 构建网络拓扑图
     graph = data_manager.build_graph()
     
-    # # 绘制拓扑图以便确认拓扑信息
-    # data_manager.(graph, title="Network Topology")
+    # 绘制拓扑图以便确认拓扑信息
+    draw_topology(graph)
     
     # 计算候选k条路径（例如 k=3）
     router = Router(graph)
