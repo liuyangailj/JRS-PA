@@ -2,63 +2,61 @@
 # 文件：main.py
 # ---------------------------------------------------------------
 import logging
-from src.data_handler import json_handler
-from src.graph import topology
-from src.routing.route_conversion import convert_stream_routes
-from src.routing.k_shortest_paths import compute_k_shortest_paths
-from src.routing.optimal_routing import optimal_routing # 假设 optimal_routing 在 src/routing 目录下
-from src.scheduling.compute_scheduling_params import calculate_tdi_and_ts
-from src.scheduling.allocate_time_slot import allocate_time_slots
-from src.scheduling import derive_gcl # 如果你需要这个模块
-from src.sorting import sort_stream
+from src.data_manager import DataManager
+from src.router import Router
+from src.scheduler import Scheduler
+from src.sort_streams import sort_streams
 
 
 def main():
     input_file = "./data/input/bridge3_es9_line_example.json" 
-    output_file = "./data/output/output.json"
+    output_file = "./data/output/allocated_ts_output.json"
     
     # 配置日志
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO)    
     
+    # 实例化类
+    data_manager = DataManager(input_file)
+        
     # 加载数据
-    data = json_handler.read_json(input_file)
+    input_data = data_manager.load_data()
     
     # 构建网络拓扑图
-    graph = topology.build_graph(data)
+    graph = data_manager.build_graph()
+    
+    # # 绘制拓扑图以便确认拓扑信息
+    # data_manager.(graph, title="Network Topology")
+    
+    # 计算候选k条路径（例如 k=3）
+    router = Router(graph)
+    find_k_path_data = router.compute_k_shortest_paths(input_data, k=3)
+    # 计算流的物理延迟，筛选出有效路径
+    valid_path_data = router.get_stream_phy_delay_on_path(find_k_path_data)   
+    # 排序
+    sorted_streams = sort_streams(valid_path_data)
+    # 选最优路径
+    select_optimal_routes_data = router.select_optimal_routes(sorted_streams)  
     
     # 转换流中的路由表示
-    data = convert_stream_routes(data)
+    converted_stream_routes = data_manager.convert_stream_routes(select_optimal_routes_data)
     
-    # 计算最短路径（例如 k=3）
-    compute_k_shortest_paths(graph, data, k=3)
-    
-    # 对流进行排序
-    data = sort_stream.sort_streams(data)
-    
-    # 计算流的物理延迟，筛选出有效路径
-    # 选出最优路径
-    
-    optimal_routing(data)
-    
-    
-    # 计算时间调度参数
-    data = calculate_tdi_and_ts(data)
+    # 实例化调度
+    scheduler = Scheduler(select_optimal_routes_data)
+    # # 计算时间调度参数
+    # TDI, TS, GBI = scheduler.calculate_tdi_and_ts(converted_stream_routes)
     
     # 初始化端口分配数据 (此处示例假设端口列表来源于 JSON 或预设)
-    used_ports_data = calculate_tsai_and_ntstc(data)
-    data = allocate_time_slots(data, used_ports_data)
+    used_ports_data = scheduler.calculate_tsai_and_ntstc(converted_stream_routes)
+    allocated_streams = scheduler.allocate_time_slots(converted_stream_routes, used_ports_data)
     
     # # 推导 GCL
     # data = derive_gcl.derive_gcl(data)
     
     # # 对流进行排序
-    # data = stream_sort.sort_streams(data)
-    
-    # 绘制拓扑图以便确认拓扑信息
-    topology.draw_topology(graph, title="Network Topology")
+    # data = stream_sort.sort_streams(data)    
     
     # 保存最终结果
-    json_handler.write_json(data, output_file)
+    data_manager.save_data(output_file, allocated_streams)    
 
 if __name__ == "__main__":
     main()
