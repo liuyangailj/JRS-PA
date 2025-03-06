@@ -74,7 +74,7 @@ def check_and_convert(links_ports):
 
 def main():
     # 假设 JSON 文件是一个数组，每个元素含有 field "content" 内部嵌入
-    network_data_file = "../data/input/test_1.json"
+    network_data_file = "./data/input/test_1.json"
     with open(network_data_file, "r", encoding="utf-8") as f:
         data = json.load(f)
     
@@ -91,11 +91,16 @@ def main():
     #     else:
     #         # 当 entry["content"] 直接为一个链接项，则直接加入
     #         links_ports.append(inner)
-    
+    output_file = "./data/output/checked_data.json"
     try:
         new_links_ports = check_and_convert(links_ports)
-        print("所有检查都通过，转换后的数据如下：")
-        print(json.dumps(new_links_ports, indent=2, ensure_ascii=False))
+        print("所有检查都通过，转换后的数据保存到：output_file")
+        try:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(new_links_ports, f, indent=4)
+        except IOError as e:
+            print(f"保存数据失败: {e}")
+        # print(json.dumps(new_links_ports, indent=2, ensure_ascii=False))
     except Exception as e:
         print("检查失败:", e)
 
