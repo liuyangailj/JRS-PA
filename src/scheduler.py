@@ -27,7 +27,7 @@ class Scheduler:
                 break
         if processing_delay is None:
             print("未找到 isBridge=True 的节点或 processingDelay 数据不可用")
-            return None, None, None
+            return None, None, None, None
         
         # 获取链路传输速率与传播延迟
         transmission_rate = None
@@ -39,32 +39,35 @@ class Scheduler:
                 break
         if transmission_rate is None or propagation_delay is None:
             print("未找到 transmissionRate 或 propagationDelay 数据")
-            return None, None, None
+            return None, None, None, None
         
         # 获取流的最大帧大小和每周期帧数
         streams = data.get('streams', [])
         if not streams:
             print("未找到流数据")
-            return None, None, None
+            return None, None, None, None
         first_stream = streams[0] # 仅获取第一个流的信息
         framesize = first_stream.get('maxFrameSize', 0)
         framesperperiod = first_stream.get('framesPerPeriod', 0)
         
+        
         if transmission_rate == 0:
             print("transmission_rate 为 0，无法计算延时")
-            return None, None, None
+            return None, None, None, None
         
         # 计算传输延时 = framesize * framesperperiod / transmission_rate
         transmission_delay = framesize * framesperperiod / transmission_rate
         
         # 获取所有流周期，并找到最小值作为调度基准pdbase        
         periods = [stream.get('period', 0) for stream in streams]       
-        pdbase = min(periods) # 根据公式 (5)   
-           
+        pdbase = min(periods) # 根据公式 (5) 
+        # 获取 TSAI_max        
+        # TSAI_max = max([stream.get("period", 0) for stream in streams if stream.get("period", 0) > 0])     
+        TSAI_max = max(periods) # 根据公式 (6)   
         TDI = pdbase  # 根据公式 (8)        
         GBI = 1542/ transmission_rate  # 根据公式 (9)        
         TS = transmission_delay + propagation_delay + processing_delay  # 根据公式 (10)        
-        return TDI, TS, GBI   
+        return TDI, TS, GBI, TSAI_max   
 
     # ---------------------step 2 NTSTC计算开始--------------------------------
     def calculate_tsai_and_ntstc(self, data):
@@ -83,7 +86,7 @@ class Scheduler:
         """
         # 获取流数据和TDI、TS、参数
         streams = data.get("streams", [])
-        TDI,TS,_ = self.calculate_tdi_and_ts(data)
+        TDI,TS,_,_ = self.calculate_tdi_and_ts(data)
         if TDI is None or TS is None:
             raise Exception("TDI 未能正确计算 或 TS 数据未找到！")
 
@@ -170,19 +173,19 @@ class Scheduler:
         return used_ports_data
 
     # ---------------------step 3调度--------------------------------    
-    def init_allocation(self, used_time_slot_allocation, port, NTSTC, TASI_max_TDI):
+    def init_allocation(self, used_time_slot_allocation, port, NTSTC, TSAI_max_TDI):
         """初始化某个端口的时间槽分配状态
 
         Args:
             used_time_slot_allocation (dict): 记录端口分配状态的字典
             port (str): 端口标识
             NTSTC (int): 当前端口允许的槽位数上限
-            TASI_max_TDI (int): STDIN的上限值
+            TSAI_max_TDI (int): STDIN的上限值
         """
         if port not in used_time_slot_allocation:
             used_time_slot_allocation[port] = {}
             # STDIN 范围为 1 到 TASImax/TDI (上界值)
-            for stdin in range(1, TASI_max_TDI+1):
+            for stdin in range(1, TSAI_max_TDI+1):
                 used_time_slot_allocation[port][stdin] = {}
                 for ssn in range(1, NTSTC + 1):
                     used_time_slot_allocation[port][stdin][ssn] = False
@@ -207,18 +210,15 @@ class Scheduler:
         used_time_slot_allocation = {}  # 用于每个端口存储分配情况， key为端口标识
         allocation_result = {}  # 保存每个流每个端口的分配结果
         streams = data.get("streams", []) # 获取流数据信息
-        # 获取 TASI_max
-        if streams:
-            TASI_max = max([stream.get("period", 0) for stream in streams if stream.get("period", 0) > 0])
-        else:
-            TASI_max = 0    
+        # 获取 TSAI_max
+        TSAI_max = self.calculate_tdi_and_ts(data)[3]    
         
         # 获取 TDI 和 TS
         # # 计算 一个调度周期TASImax内的TDI数量
         TDI = self.calculate_tdi_and_ts(data)[0]
         if TDI == 0 or TDI is None:
             raise Exception("TDI 计算错误！")
-        TASI_max_TDI = int(TASI_max / TDI) 
+        TSAI_max_TDI = int(TSAI_max / TDI) 
         
         # 对于每个流开始时间槽分配
         for stream in streams:
@@ -238,21 +238,24 @@ class Scheduler:
                 raise Exception(f"端口 {first_port} 的 NTSTC 未找到！")
             
             # 初始化第一个端口的分配状态
-            self.init_allocation(used_time_slot_allocation, first_port, first_port_NTSTC, TASI_max_TDI)
+            self.init_allocation(used_time_slot_allocation, first_port, first_port_NTSTC, TSAI_max_TDI)
             allocated = False
-            # 从 STDIN=1 开始检查，注意上界为 TASImax
+            # 从 STDIN=1 开始检查，注意上界为 TSAImax
             stdin = 1
             ssn = 1
             
             # 直到找到合适槽位或遍历完所有可能位置
-            while stdin <= TASI_max_TDI and not allocated:
+            while stdin <= TSAI_max_TDI and not allocated:
                 # 计算剩余槽位 RTS = NTSTC - 当前 SSN + 1 （因为 SSN 是当前未被分配槽位起点）
                 RTS = first_port_NTSTC - ssn + 1
                 # 判断条件：需要至少 1 个槽位（通常条件可以是1 ≤ RTS < NTSTC，但实际判断槽位是否足够）
                 if RTS >= 1:
                     # 若当前槽位未被分配，则分配该位置
                     if not used_time_slot_allocation[first_port][stdin][ssn]:
-                        allocation_result[stream_id][first_port] = (stdin, ssn)
+                        allocation_result[stream_id][first_port] = {
+                            "time_slot_position": (stdin, ssn),
+                            "curr_port_NTSTC": first_port_NTSTC
+                        }
                         used_time_slot_allocation[first_port][stdin][ssn] = True
                         allocated = True
                         # 更新 ssn 为下一槽位供下一次使用（如有需要后续再分配当前流在同一端口的其他 TS）
@@ -266,9 +269,14 @@ class Scheduler:
                     ssn = 1
             if not allocated:
                 raise Exception(f"流 {stream_id} 在第一个端口分配失败，请检查 TASImax 或 NTSTC 参数！")
+            
             # 对于后续端口，采用递推方式分配
             # 注意每个端口都需要初始化其 used_time_slot_allocation 状态
-            previous_stdin, previous_ssn = allocation_result[stream_id][first_port]
+            # 递推规则：如果上一端口的 ssn 小于 NTSTC，则当前端口的分配与上一端口相同 STDIN, SSN+1
+            # 如果上一端口 ssn 已等于 NTSTC，则 STDIN 自增，SSN 重置为 1
+            previous_stdin = allocation_result[stream_id][first_port]["time_slot_position"][0]
+            previous_ssn = allocation_result[stream_id][first_port]["time_slot_position"][1]
+
             for i in range(1, len(ports_list)):
                 curr_port = ports_list[i]
                 curr_port_NTSTC = None
@@ -279,7 +287,7 @@ class Scheduler:
                 if curr_port_NTSTC is None: 
                     raise Exception(f"端口 {curr_port} 的 NTSTC 未找到！")
                 
-                self.init_allocation(used_time_slot_allocation, curr_port, curr_port_NTSTC, TASI_max_TDI)
+                self.init_allocation(used_time_slot_allocation, curr_port, curr_port_NTSTC, TSAI_max_TDI)
                 # 递推规则：如果上一端口的 ssn 小于 NTSTC，则当前端口的分配与上一端口相同 STDIN, SSN+1
                 if previous_ssn < curr_port_NTSTC:
                     curr_stdin = previous_stdin
@@ -294,10 +302,13 @@ class Scheduler:
                 temp_stdin = curr_stdin
                 temp_ssn = curr_ssn
                 
-                while temp_stdin <= TASI_max_TDI and not allocated_curr:
+                while temp_stdin <= TSAI_max_TDI and not allocated_curr:
                     if not used_time_slot_allocation[curr_port][temp_stdin][temp_ssn]:
                         # 分配给当前端口
-                        allocation_result[stream_id][curr_port] = (temp_stdin, temp_ssn)
+                        allocation_result[stream_id][curr_port] = {
+                            "time_slot_position": (temp_stdin, temp_ssn),
+                            "curr_port_NTSTC": curr_port_NTSTC
+                        }
                         used_time_slot_allocation[curr_port][temp_stdin][temp_ssn] = True
                         allocated_curr = True
                         # 更新递推变量以便下一端口使用

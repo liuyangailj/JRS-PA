@@ -2,14 +2,20 @@
 # 文件：main.py
 # ---------------------------------------------------------------
 import logging
+import time
+
 from src.data_manager import DataManager
 from src.router import Router
 from src.scheduler import Scheduler
 from src.sort_streams import sort_streams
 from src.draw_topology import draw_topology
+from src.ts_allocation_gantt import plot_gantt_chart
 
 def main():
-    input_file = "./data/input/bridge3_es9_line_example.json" 
+    # input_file = "./data/input/bridge3_es9_line_example.json" 
+    # input_file = "./data/input/test_1.json" 
+    input_file = "./data/input/ring_multipath.json"
+    
     output_file = "./data/output/allocated_ts_output.json"
     
     # 配置日志
@@ -25,7 +31,10 @@ def main():
     graph = data_manager.build_graph()
     
     # 绘制拓扑图以便确认拓扑信息
-    draw_topology(graph)
+    # draw_topology(graph)
+    
+    # 开始计时：
+    start_time = time.perf_counter()
     
     # 计算候选k条路径（例如 k=3）
     router = Router(graph)
@@ -49,6 +58,11 @@ def main():
     used_ports_data = scheduler.calculate_tsai_and_ntstc(converted_stream_routes)
     allocated_streams = scheduler.allocate_time_slots(converted_stream_routes, used_ports_data)
     
+    # 结束计时
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+    print(f"代码执行时间（allocate_time_slots 前后的代码块）: {elapsed_time:.6f} 秒")
+    
     # # 推导 GCL
     # data = derive_gcl.derive_gcl(data)
     
@@ -57,6 +71,11 @@ def main():
     
     # 保存最终结果
     data_manager.save_data(output_file, allocated_streams)    
+    
+    # 绘制结果gantt图
+    # plot_gantt_chart(allocated_streams, used_ports_data, TSAI_max, TDI)
+    TDI, TS, GBI, TSAI_max = scheduler.calculate_tdi_and_ts(converted_stream_routes)
+    plot_gantt_chart(allocated_streams, used_ports_data, TSAI_max, TDI, TS)
 
 if __name__ == "__main__":
     main()
