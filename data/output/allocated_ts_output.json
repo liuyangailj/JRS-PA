@@ -1,20 +1,50 @@
 {
-    "Stream1": {
+    "Stream13": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 8
+        },
         "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream19": {
+        "Link10-2/Port21": {
             "time_slot_position": [
                 1,
                 1
             ],
             "curr_port_NTSTC": 3
         },
-        "Link0-1/Port0": {
+        "Link1-1/Port2": {
             "time_slot_position": [
                 1,
                 2
             ],
             "curr_port_NTSTC": 3
         },
-        "Link5-2/Port11": {
+        "Link36-1/Port72": {
             "time_slot_position": [
                 1,
                 3
@@ -23,33 +53,960 @@
         }
     },
     "Stream2": {
-        "Link3-1/Port6": {
+        "Link11-2/Port23": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 7
+        },
+        "Link0-1/Port0": {
             "time_slot_position": [
                 1,
                 2
             ],
-            "curr_port_NTSTC": 3
+            "curr_port_NTSTC": 9
+        },
+        "Link2-1/Port4": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 10
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream20": {
+        "Link35-2/Port71": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 4
+        },
+        "Link9-2/Port19": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 4
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link29-1/Port58": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 4
+        }
+    },
+    "Stream22": {
+        "Link33-2/Port67": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 4
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream24": {
+        "Link32-2/Port65": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 5
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream28": {
+        "Link31-2/Port63": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 6
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream29": {
+        "Link31-2/Port63": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 6
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream3": {
+        "Link12-2/Port25": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 5
         },
         "Link0-1/Port0": {
             "time_slot_position": [
                 1,
                 3
             ],
+            "curr_port_NTSTC": 9
+        },
+        "Link2-1/Port4": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 10
+        },
+        "Link16-1/Port32": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 5
+        }
+    },
+    "Stream30": {
+        "Link31-2/Port63": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 6
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                8
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream34": {
+        "Link16-2/Port33": {
+            "time_slot_position": [
+                1,
+                1
+            ],
             "curr_port_NTSTC": 3
         },
-        "Link1-1/Port2": {
+        "Link4-1/Port8": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 3
+        },
+        "Link32-1/Port64": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 3
+        }
+    },
+    "Stream36": {
+        "Link14-2/Port29": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 4
+        },
+        "Link2-1/Port4": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 10
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link21-1/Port42": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 4
+        }
+    },
+    "Stream4": {
+        "Link12-2/Port25": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 5
+        },
+        "Link0-1/Port0": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 9
+        },
+        "Link2-1/Port4": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 10
+        },
+        "Link16-1/Port32": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 5
+        }
+    },
+    "Stream5": {
+        "Link18-2/Port37": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream6": {
+        "Link18-2/Port37": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                8
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream9": {
+        "Link18-2/Port37": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                8
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link22-1/Port44": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 6
+        }
+    },
+    "Stream1": {
+        "Link11-2/Port23": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 7
+        },
+        "Link0-1/Port0": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 9
+        },
+        "Link2-1/Port4": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 10
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                8
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                9
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                10
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream10": {
+        "Link18-2/Port37": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                9
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                10
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link22-1/Port44": {
+            "time_slot_position": [
+                2,
+                2
+            ],
+            "curr_port_NTSTC": 6
+        }
+    },
+    "Stream11": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                10
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                11
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                12
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream12": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                11
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                12
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                1,
+                13
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream14": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                12
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                13
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream15": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                13
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                14
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                2,
+                2
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream16": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                14
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                15
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                2,
+                3
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream17": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                15
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                1,
+                16
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                2,
+                4
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream18": {
+        "Link17-2/Port35": {
+            "time_slot_position": [
+                1,
+                8
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                16
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link23-1/Port46": {
+            "time_slot_position": [
+                2,
+                5
+            ],
+            "curr_port_NTSTC": 13
+        }
+    },
+    "Stream21": {
+        "Link33-2/Port67": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 4
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                8
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                9
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream23": {
+        "Link32-2/Port65": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 5
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                9
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                10
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream25": {
+        "Link32-2/Port65": {
+            "time_slot_position": [
+                1,
+                3
+            ],
+            "curr_port_NTSTC": 5
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                10
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                1,
+                11
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream26": {
+        "Link32-2/Port65": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 5
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                11
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream27": {
+        "Link32-2/Port65": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 5
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                12
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                2,
+                2
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream31": {
+        "Link31-2/Port63": {
+            "time_slot_position": [
+                1,
+                4
+            ],
+            "curr_port_NTSTC": 6
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                1,
+                13
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                2,
+                3
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream32": {
+        "Link31-2/Port63": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 6
+        },
+        "Link8-2/Port17": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 13
+        },
+        "Link30-1/Port60": {
+            "time_slot_position": [
+                2,
+                4
+            ],
+            "curr_port_NTSTC": 11
+        }
+    },
+    "Stream33": {
+        "Link28-2/Port57": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 2
+        },
+        "Link7-2/Port15": {
+            "time_slot_position": [
+                1,
+                2
+            ],
+            "curr_port_NTSTC": 2
+        },
+        "Link6-2/Port13": {
             "time_slot_position": [
                 2,
                 1
             ],
             "curr_port_NTSTC": 2
         },
-        "Link10-2/Port21": {
+        "Link24-1/Port48": {
             "time_slot_position": [
                 2,
                 2
             ],
             "curr_port_NTSTC": 2
+        }
+    },
+    "Stream35": {
+        "Link13-2/Port27": {
+            "time_slot_position": [
+                1,
+                1
+            ],
+            "curr_port_NTSTC": 2
+        },
+        "Link2-1/Port4": {
+            "time_slot_position": [
+                1,
+                7
+            ],
+            "curr_port_NTSTC": 10
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                1,
+                17
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link20-1/Port40": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 2
+        }
+    },
+    "Stream7": {
+        "Link18-2/Port37": {
+            "time_slot_position": [
+                1,
+                5
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                2,
+                1
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                2,
+                2
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link22-1/Port44": {
+            "time_slot_position": [
+                2,
+                3
+            ],
+            "curr_port_NTSTC": 6
+        }
+    },
+    "Stream8": {
+        "Link18-2/Port37": {
+            "time_slot_position": [
+                1,
+                6
+            ],
+            "curr_port_NTSTC": 8
+        },
+        "Link3-1/Port6": {
+            "time_slot_position": [
+                2,
+                2
+            ],
+            "curr_port_NTSTC": 17
+        },
+        "Link5-1/Port10": {
+            "time_slot_position": [
+                2,
+                3
+            ],
+            "curr_port_NTSTC": 16
+        },
+        "Link22-1/Port44": {
+            "time_slot_position": [
+                2,
+                4
+            ],
+            "curr_port_NTSTC": 6
         }
     }
 }

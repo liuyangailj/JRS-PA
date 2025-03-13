@@ -13,8 +13,8 @@ from src.ts_allocation_gantt import plot_gantt_chart
 
 def main():
     # input_file = "./data/input/bridge3_es9_line_example.json" 
-    # input_file = "./data/input/test_1.json" 
-    input_file = "./data/input/ring_multipath.json"
+    input_file = "./data/input/test_1.json" 
+    # input_file = "./data/input/ring_multipath.json"
     
     output_file = "./data/output/allocated_ts_output.json"
     

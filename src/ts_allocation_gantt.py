@@ -11,7 +11,7 @@ def calculate_x(stdin, ssn, TDI, TS):
     计算x坐标，单位统一表示成TS刻度
     x = (stdin - 1) * (TDI / TS) + ssn
     """
-    return (stdin - 1) * (TDI / TS) + ssn
+    return (stdin - 1) * (TDI / TS) + ssn-1
 
 def plot_gantt_chart(allocation_result, used_ports_data, TSAI_max, TDI, TS):
     """
@@ -70,7 +70,9 @@ def plot_gantt_chart(allocation_result, used_ports_data, TSAI_max, TDI, TS):
 
     # 创建图例
     patches = [mpatches.Patch(color=color_map[stream], label=stream) for stream in color_map]
-    ax.legend(handles=patches, title="流名称")
+    ax.legend(handles=patches, title="流名称", loc='center left',
+          bbox_to_anchor=(1, 0.5), ncol=2)
+
     
     plt.rcParams['font.sans-serif'] = ['SimHei']  # 用黑体显示中文
     plt.rcParams['axes.unicode_minus'] = False
