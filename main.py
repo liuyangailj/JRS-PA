@@ -7,7 +7,7 @@ import time
 from src.data_manager import DataManager
 from src.router import Router
 from src.scheduler import Scheduler
-from src.sort_streams import sort_streams
+from src.sort_streams import StreamSorter
 from src.draw_topology import draw_topology
 from src.ts_allocation_gantt import plot_gantt_chart
 
@@ -15,6 +15,8 @@ def main():
     # input_file = "./data/input/bridge3_es9_line_example.json" 
     input_file = "./data/input/test_1.json" 
     # input_file = "./data/input/ring_multipath.json"
+    # input_file = "./data/input/instances/default/Instance74.json"
+    # input_file = "./data/input/instances/infeasible/easy/instance980.json"
     
     output_file = "./data/output/allocated_ts_output.json"
     
@@ -31,7 +33,7 @@ def main():
     graph = data_manager.build_graph()
     
     # 绘制拓扑图以便确认拓扑信息
-    # draw_topology(graph)
+    draw_topology(graph)
     
     # 开始计时：
     start_time = time.perf_counter()
@@ -42,15 +44,21 @@ def main():
     # 计算流的物理延迟，筛选出有效路径
     valid_path_data = router.get_stream_phy_delay_on_path(find_k_path_data)   
     # 排序
-    sorted_streams = sort_streams(valid_path_data)
+    sorted = StreamSorter(valid_path_data)
+    sorted_streams = sorted.sort_by_period_then_name()
+    # sorted_streams = sorted.sort_by_name_length()
+    # sorted_streams = sorted.sort_by_period_desc()
+    
     # 选最优路径
     select_optimal_routes_data = router.select_optimal_routes(sorted_streams)  
-    
+     
     # 转换流中的路由表示
     converted_stream_routes = data_manager.convert_stream_routes(select_optimal_routes_data)
     
     # 实例化调度
     scheduler = Scheduler(select_optimal_routes_data)
+    # 若已知的端口分配数据，则可以直接使用该数据进行调度
+    
     # # 计算时间调度参数
     # TDI, TS, GBI = scheduler.calculate_tdi_and_ts(converted_stream_routes)
     
